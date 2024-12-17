@@ -44,12 +44,6 @@ internal class NavigationControler {
 		visited.Last().Visible = true;
 	}
 	private static ButtonType GetCurrentButtonType(Control cntrl) { return ((MenuButton) cntrl).buttonType; }
-	private static PanelType GetCurrentPanelType(Control cntrl) {
-		Control parent = cntrl.Parent;
-		if (parent.GetType() == typeof(MenuPanel)) { return ((MenuPanel) parent).panelType; }
-		if (parent.GetType() == typeof(GamePanel)) { return ((GamePanel) parent).panelType; }
-		return PanelType.None;
-	}
 	private static PanelType GetNextPanelType(ButtonType type) {
 		return type switch {
 			ButtonType.MainMenuPlay => PanelType.PlayMenu,

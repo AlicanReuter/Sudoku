@@ -9,12 +9,14 @@ using static UI.Controls.Helpers.NavigationControler;
 namespace UI.Controls.Forms;
 internal class Window : Form {
 	private NavigationControler instance;
+	internal FormType formType;
 	internal Window() {
-		InitializeWindow(FormType.MainForm);
+		this.formType = FormType.MainForm;
+		InitializeWindow();
 		InitializeNavigationControler();
 		NavigateToFirstScreen();
 	}
-	private void InitializeWindow(FormType type) {
+	private void InitializeWindow() {
 		this.Size = new(MainFormWidth, MainFormHeight);
 		this.FormBorderStyle = FormBorderStyle.None;
 		this.StartPosition = FormStartPosition.CenterScreen;
