@@ -47,9 +47,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\Button\TemplateButton.cs" />
-    <Compile Include="Controls\Form\TemplateForm.cs" />
-    <Compile Include="Controls\Panel\TemplatePanel.cs" />
+    <Compile Include="Controls\Buttons\GameButtonField.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Buttons\GameButtonNumber.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Buttons\GameButtonVariant.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Buttons\MenuButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Forms\Window.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Controls\Helpers\Helper.cs" />
+    <Compile Include="Controls\Helpers\NavigationControler.cs" />
+    <Compile Include="Controls\Panels\GamePanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Panels\MenuPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
