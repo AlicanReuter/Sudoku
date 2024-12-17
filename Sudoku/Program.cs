@@ -4,5 +4,6 @@ public class Program {
 	/// Main entry of Project Sudoku
 	/// </summary>
 	public static void Main() {
+		UI.Program.Main([]);
 	}
 }
