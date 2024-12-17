@@ -39,6 +39,13 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="SudokuCreation\Sudoku.cs" />
+    <Compile Include="SudokuCreation\SudokuVariants.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{892a119d-beec-44a6-a5b6-17e6c3f55bcf}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
