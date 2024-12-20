@@ -13,6 +13,7 @@ public static class Controls {
 	public enum PanelType {
 		None,
 		TaskBar,
+		FormPanel,
 		MainMenu,
 		PlayMenu,
 		OptionMenu,
@@ -54,16 +55,16 @@ public static class Controls {
 	#region ControlSize
 	public static readonly int MainFormWidth = 1280;
 	public static readonly int MainFormHeight = 720;
-	public static readonly int SubFormWidth = 720;
-	public static readonly int SubFormHeight = 405;
-	public static readonly int TaskButtonSize = 25;
-	public static readonly int MenuButtonWidth = 300;
-	public static readonly int MenuButtonHeight = 50;
+	public static readonly int TaskPanelWidth = MainFormWidth;
+	public static readonly int TaskPanelHeight = 30;
+	public static readonly int TaskButtonSize = 30;
+	public static readonly int MainMenuButtonWidth = 300;
+	public static readonly int MainMenuButtonHeight = 50;
 	public static readonly int GameButtonSize = 25;
 	#endregion
 
 	#region ControlMargin
-	public static readonly int MenuButtonMargin = 25;
+	public static readonly int MainMenuButtonMargin = 25;
 	public static readonly int GameButtonMargin = 5;
 	#endregion
 

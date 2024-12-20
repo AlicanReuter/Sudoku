@@ -15,6 +15,7 @@ internal class GameButtonNumber : Button {
 		InitializeButton();
 	}
 	private void InitializeButton() {
+		this.Visible = true;
 		this.BackColor = Color.Transparent;
 		this.FlatAppearance.BorderSize = 0;
 		this.FlatStyle = FlatStyle.Flat;

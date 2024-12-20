@@ -56,7 +56,13 @@
     <Compile Include="Controls\Buttons\GameButtonVariant.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\Buttons\MainMenuButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Buttons\MenuButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Buttons\TaskButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\Forms\Window.cs">
@@ -64,10 +70,28 @@
     </Compile>
     <Compile Include="Controls\Helpers\Helper.cs" />
     <Compile Include="Controls\Helpers\NavigationControler.cs" />
+    <Compile Include="Controls\Panels\FormPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Panels\GamePanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\Panels\MainMenuPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Panels\MenuPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Panels\OptionMenuPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Panels\PlayMenuPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Panels\ScoreboardPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Panels\TaskPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />

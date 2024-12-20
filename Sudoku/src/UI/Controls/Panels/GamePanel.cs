@@ -15,8 +15,9 @@ internal class GamePanel : Panel {
 		InitializePanel();
 	}
 	private void InitializePanel() {
-		AddChildControls();
+		this.Visible = true;
 		this.BackColor = GetColor();
+		AddChildControls();
 		this.Size = GetSize();
 		this.Region = GetRegion(this);
 	}

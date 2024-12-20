@@ -20,7 +20,7 @@ internal class MenuButton : Button {
 		this.BackColor = Color.Transparent;
 		this.FlatAppearance.BorderSize = 0;
 		this.FlatStyle = FlatStyle.Flat;
-		this.Size = new(MenuButtonWidth, MenuButtonHeight);
+		this.Size = new(MainMenuButtonWidth, MainMenuButtonHeight);
 		this.Location = GetLocation();
 		this.MouseClick += ButtonClick();
 		this.Region = GetRegion(this);
@@ -28,7 +28,7 @@ internal class MenuButton : Button {
 	}
 	private Point GetLocation() {
 		int xCoordinate = 0;
-		int yCoordinate = (this.Height + MenuButtonMargin) * buttonIndex;
+		int yCoordinate = (this.Height + MainMenuButtonMargin) * buttonIndex;
 		return new Point(xCoordinate, yCoordinate);
 	}
 	internal void SetText(string text) {
@@ -55,8 +55,8 @@ internal class MenuButton : Button {
 	private void ButtonClickStartGame(object sender, MouseEventArgs mouseEventArgs) {
 		CreateSudoku(GetDifficult(this.buttonType));
 		Control game = CreateGamePanel((sender as Control));
-		AddToRootControl(game);
+		//AddToRootControl(game);
 		SetLocation(game);
-		VisitScreen(game);
+		//VisitScreen(game);
 	}
 }

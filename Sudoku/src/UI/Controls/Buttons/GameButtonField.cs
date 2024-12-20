@@ -16,6 +16,7 @@ internal class GameButtonField : Button {
 		InitializeButton();
 	}
 	private void InitializeButton() {
+		this.Visible = true;
 		this.BackColor = Color.White;
 		this.FlatAppearance.BorderSize = 0;
 		this.FlatStyle = FlatStyle.Flat;

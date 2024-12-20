@@ -14,16 +14,16 @@ internal class MenuPanel : Panel {
 		InitializePanel();
 	}
 	private void InitializePanel() {
-		AddChildControls();
 		this.Visible = false;
 		this.BackColor = Color.Transparent;
+		AddChildControls();
 		this.Size = GetSize();
 		this.Location = GetLocation();
 		this.Region = GetRegion(this);
 	}
 	private Size GetSize() {
-		int widthMenu = MenuButtonWidth;
-		int heightMenu = (this.Controls.Count * (MenuButtonHeight + MenuButtonMargin)) - MenuButtonMargin;
+		int widthMenu = MainMenuButtonWidth;
+		int heightMenu = (this.Controls.Count * (MainMenuButtonHeight + MainMenuButtonMargin)) - MainMenuButtonMargin;
 		return panelType switch {
 			PanelType.MainMenu => new Size(widthMenu, heightMenu),
 			PanelType.PlayMenu => new Size(widthMenu, heightMenu),
