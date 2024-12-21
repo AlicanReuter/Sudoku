@@ -16,7 +16,7 @@ internal class GamePanelInput : Panel {
 		this.Visible = true;
 		this.BackColor = Color.Transparent;
 		this.Size = GetSize();
-		AddChildControls();
+		AddChilds();
 		this.Region = GetRegion(this);
 	}
 	private Size GetSize() {
@@ -24,7 +24,7 @@ internal class GamePanelInput : Panel {
 		int height = (GameButtonSize + GameButtonMargin) * SudokuSquareSize;
 		return new Size(width, height);
 	}
-	private void AddChildControls() {
+	private void AddChilds() {
 		GamePanelInputNumbers pnlNumbers = new(PanelType.GamePanelInputNumbers);
 		GamePanelInputVariants pnlVariants = new(PanelType.GamePanelInputVariants);
 		this.Controls.Add(pnlNumbers);

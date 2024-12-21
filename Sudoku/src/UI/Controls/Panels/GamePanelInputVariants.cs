@@ -16,11 +16,11 @@ internal class GamePanelInputVariants : Panel {
 	private void InitializePanel() {
 		this.Visible = true;
 		this.BackColor = Color.Transparent;
-		AddChildControls();
+		AddChilds();
 		this.Size = GetSize();
 		this.Region = GetRegion(this);
 	}
-	private void AddChildControls() {
+	private void AddChilds() {
 		for (int buttonIndex = 0; buttonIndex < SudokuSize; buttonIndex++) {
 			this.Controls.Add(new GameButtonVariant(ButtonType.SudokuVariants, buttonIndex));
 		}

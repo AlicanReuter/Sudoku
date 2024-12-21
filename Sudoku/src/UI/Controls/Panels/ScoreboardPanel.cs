@@ -14,11 +14,11 @@ internal class ScoreboardPanel : Panel {
 	internal void InitializeControl() {
 		this.Visible = false;
 		this.BackColor = Color.DarkGray;//Color.Transparent;
-		AddSubControls();
+		AddChilds();
 		this.Size = GetSize();
 		this.Region = GetRegion(this);
 	}
-	private void AddSubControls() {
+	private void AddChilds() {
 		//TODO: Add Scoreboard
 	}
 	private Size GetSize() {

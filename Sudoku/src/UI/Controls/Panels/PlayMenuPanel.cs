@@ -16,11 +16,11 @@ internal class PlayMenuPanel : Panel {
 	internal void InitializeControl() {
 		this.Visible = false;
 		this.BackColor = Color.Transparent;
-		AddSubControls();
+		AddChilds();
 		this.Size = GetSize();
 		this.Region = GetRegion(this);
 	}
-	private void AddSubControls() {
+	private void AddChilds() {
 		List<ButtonType> types = [ButtonType.PlayMenuContinue, ButtonType.PlayMenuEasy, ButtonType.PlayMenuNormal, ButtonType.PlayMenuHard, ButtonType.PlayMenuExpert];
 		foreach (ButtonType type in types) {
 			PlayMenuButton btn = new(type, types.IndexOf(type));

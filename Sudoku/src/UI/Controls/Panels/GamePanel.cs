@@ -16,9 +16,9 @@ internal class GamePanel : Panel {
 		this.BackColor = Color.Transparent;
 		this.Size = new(MainFormWidth, MainFormHeight - TaskPanelHeight - TaskPanelHeight);
 		this.Region = GetRegion(this);
-		AddChildControls();
+		AddChilds();
 	}
-	private void AddChildControls() {
+	private void AddChilds() {
 		GamePanelSudoku pnlSudoku = new(PanelType.GamePanelSudokuPanel);
 		GamePanelInput pnlInput = new(PanelType.GamePanelInputPanel);
 		this.Controls.Add(pnlSudoku);

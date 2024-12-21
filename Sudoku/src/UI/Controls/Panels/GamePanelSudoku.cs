@@ -15,10 +15,10 @@ internal class GamePanelSudoku : Panel {
 	private void InitializePanel() {
 		this.Visible = true;
 		this.BackColor = Color.Black;
-		AddChildControls();
+		AddChilds();
 		this.Size = GetSize();
 	}
-	private void AddChildControls() {
+	private void AddChilds() {
 		int buttonCount = SudokuSize * SudokuSize;
 		for (int buttonIndex = 0; buttonIndex < buttonCount; buttonIndex++) {
 			this.Controls.Add(new GameButtonField(ButtonType.SudokuField, buttonIndex));
