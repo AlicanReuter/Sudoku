@@ -6,7 +6,6 @@ using static Shared.Configs.Core.SudokuCreation;
 using static Shared.Configs.UI.Controls;
 using static UI.Controls.Helpers.Helper;
 #endregion
-
 namespace UI.Controls.Panels;
 internal class GamePanelInputNumbers : Panel {
 	internal PanelType panelType;

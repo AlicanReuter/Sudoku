@@ -1,8 +1,4 @@
-﻿#region Imports
-using System;
-using System.Collections.Generic;
-#endregion
-namespace Shared.Configs.UI;
+﻿namespace Shared.Configs.UI;
 public static class Controls {
 	#region ControlTypes
 	public enum FormType {
@@ -43,14 +39,6 @@ public static class Controls {
 		SudokuVariants,
 		GoBack
 	}
-	public static bool IsCorrectType(Enum type) {
-		return type switch {
-			FormType => true,
-			PanelType => true,
-			ButtonType => true,
-			_ => false,
-		};
-	}
 	#endregion
 
 	#region ControlSize
@@ -72,46 +60,6 @@ public static class Controls {
 	public static readonly int GoBackButtonMargin = 25;
 	public static readonly int MainMenuButtonMargin = 25;
 	public static readonly int PlayMenuButtonMargin = 25;
-	public static readonly int GameButtonMargin = 5;
-	#endregion
-
-	#region ControlChilds
-	public static readonly Dictionary<PanelType, List<(Enum, string)>> MenuPanelChilds = new() {
-		[PanelType.MainMenu] = [
-			(ButtonType.MainMenuPlay, "Play"),
-			(ButtonType.MainMenuOption, "Options"),
-			(ButtonType.MainMenuScoreboard, "Scoreboard")
-			],
-		[PanelType.PlayMenu] = [
-			(ButtonType.PlayMenuContinue, "Continue"),
-			(ButtonType.PlayMenuEasy, "Easy"),
-			(ButtonType.PlayMenuNormal, "Normal"),
-			(ButtonType.PlayMenuHard, "Hard"),
-			(ButtonType.PlayMenuExpert, "Expert"),
-			],
-		[PanelType.OptionMenu] = [],
-		[PanelType.Scoreboard] = []
-	};
-	public static readonly Dictionary<PanelType, List<(Enum, string)>> GamePanelChilds = new() {
-		[PanelType.Game] = [
-			(PanelType.GamePanelSudokuPanel, ""),
-			(PanelType.GamePanelInputPanel, "")
-			],
-		[PanelType.GamePanelSudokuPanel] = [(ButtonType.SudokuField, ""),],
-		[PanelType.GamePanelInputPanel] = [
-			(PanelType.GamePanelInputNumbers, ""),
-			(PanelType.GamePanelInputVariants, "")
-			],
-		[PanelType.GamePanelInputNumbers] = [
-			(ButtonType.SudokuNumbers, "")
-			],
-		[PanelType.GamePanelInputVariants] = [
-			(ButtonType.SudokuVariants, "")
-			]
-	};
-	#endregion
-
-	#region ControlRadius
-	public static readonly float Radius = 25f;
+	public static readonly int GameButtonMargin = 2;
 	#endregion
 }

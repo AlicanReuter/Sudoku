@@ -5,7 +5,6 @@ using UI.Controls.Buttons;
 using static Shared.Configs.Core.SudokuCreation;
 using static Shared.Configs.UI.Controls;
 #endregion
-
 namespace UI.Controls.Panels;
 internal class GamePanelSudoku : Panel {
 	internal PanelType panelType;

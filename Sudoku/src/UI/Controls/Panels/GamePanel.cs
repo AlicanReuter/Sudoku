@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using static Shared.Configs.UI.Controls;
 using static UI.Controls.Helpers.Helper;
 #endregion
-
 namespace UI.Controls.Panels;
 internal class GamePanel : Panel {
 	internal PanelType panelType;

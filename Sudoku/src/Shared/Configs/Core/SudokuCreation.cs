@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace Shared.Configs.Core;
 public static class SudokuCreation {
+	#region SudokuTypes
 	public enum Difficult {
 		None,
 		Easy,
@@ -18,6 +19,9 @@ public static class SudokuCreation {
 		Column,
 		Square
 	}
+	#endregion
+
+	#region SudokuVariables
 	public static int SudokuSize { get; set; }
 	public static int SudokuSquareSize { get; set; }
 	public static List<List<int>> UnsolvedSudoku { get; set; }
@@ -26,11 +30,14 @@ public static class SudokuCreation {
 	public static Difficult Difficulty { get; set; }
 	public static Transformation CurrentTransformation { get; set; }
 	public static List<Dictionary<string, object>> GuessHistory { get; set; }
+	#endregion
+
+	#region SudokuHelperFunctions
 	public static void CreateEmptySudoku() {
 		List<List<int>> sudoku = [];
-		for (int row = 0; row < SudokuCreation.SudokuSize; row++) {
+		for (int row = 0; row < SudokuSize; row++) {
 			List<int> newRow = [];
-			for (int column = 0; column < SudokuCreation.SudokuSize; column++) {
+			for (int column = 0; column < SudokuSize; column++) {
 				newRow.Add(0);
 			}
 			sudoku.Add(newRow);
@@ -39,7 +46,7 @@ public static class SudokuCreation {
 	}
 	public static List<int> GetSudokuNumbers() {
 		List<int> numbers = [];
-		for (int number = 1; number <= SudokuCreation.SudokuSize; number++) {
+		for (int number = 1; number <= SudokuSize; number++) {
 			numbers.Add(number);
 		}
 		return numbers;
@@ -66,6 +73,9 @@ public static class SudokuCreation {
 		}
 		SolvedSudoku = solvedSudoku;
 	}
+	#endregion
+
+	#region DebugFunctions
 	public static void Print(List<List<int>> sudoku) {
 		for (int row = 0; row < SudokuSize; row++) {
 			if (row % SudokuSquareSize == 0) {
@@ -81,4 +91,5 @@ public static class SudokuCreation {
 		}
 		Console.WriteLine("|-------|-------|-------|");
 	}
+	#endregion
 }

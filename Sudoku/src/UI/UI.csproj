@@ -62,9 +62,6 @@
     <Compile Include="Controls\Buttons\MainMenuButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Controls\Buttons\MenuButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Controls\Buttons\PlayMenuButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -95,9 +92,6 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\Panels\MainMenuPanel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\Panels\MenuPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\Panels\OptionMenuPanel.cs">

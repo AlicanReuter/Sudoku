@@ -4,7 +4,6 @@ using System.Windows.Forms;
 using UI.Controls.Buttons;
 using static Shared.Configs.UI.Controls;
 #endregion
-
 namespace UI.Controls.Panels;
 internal class TaskMenuPanel : Panel {
 	internal PanelType panelType;

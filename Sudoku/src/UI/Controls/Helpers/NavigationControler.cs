@@ -1,21 +1,21 @@
-﻿using System;
+﻿#region Imports
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using static Shared.Configs.UI.Controls;
-
+#endregion
 namespace UI.Controls.Helpers;
 internal class NavigationControler {
-	private static NavigationControler instance = null;
+	//private static NavigationControler instance = null;
 	internal static Control rootCntrl = default;
 	private static readonly List<Control> visited = [];
-	private NavigationControler() { }
-	internal static NavigationControler Instance {
-		get {
-			instance ??= new NavigationControler();
-			return instance;
-		}
-	}
+	//private NavigationControler() { }
+	//internal static NavigationControler Instance {
+	//	get {
+	//		instance ??= new NavigationControler();
+	//		return instance;
+	//	}
+	//}
 	internal static void SetRootControl(Control cntrl) { rootCntrl = cntrl; }
 	internal static void VisitFirstScreen(Control cntrl) {
 		foreach (Control child in cntrl.Controls) {

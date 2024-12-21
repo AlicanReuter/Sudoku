@@ -1,5 +1,4 @@
 ﻿#region Imports
-using System;
 using System.Drawing;
 using System.Windows.Forms;
 using static Shared.Configs.UI.Controls;

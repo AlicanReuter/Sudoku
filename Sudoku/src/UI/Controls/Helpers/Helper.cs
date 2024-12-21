@@ -1,10 +1,8 @@
 ﻿#region Imports
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using UI.Controls.Buttons;
 using UI.Controls.Panels;
 using static Shared.Configs.Core.SudokuCreation;
 using static Shared.Configs.UI.Controls;
@@ -15,6 +13,7 @@ internal static class Helper {
 	#region ControlRegion
 	internal static Region GetRegion(Control control) {
 		Rectangle rect = new(0, 0, control.Width, control.Height);
+		float radius = 25;
 		float bottomRight = 0f;
 		float bottomLeft = 90f;
 		float topLeft = 180f;
@@ -22,39 +21,10 @@ internal static class Helper {
 		float angle = 90f;
 		using GraphicsPath path = new();
 		path.StartFigure();
-		path.AddArc(rect.Right - Radius, rect.Bottom - Radius, Radius, Radius, bottomRight, angle);
-		path.AddArc(rect.Left, rect.Bottom - Radius, Radius, Radius, bottomLeft, angle);
-		path.AddArc(rect.Left, rect.Top, Radius, Radius, topLeft, angle);
-		path.AddArc(rect.Right - Radius, rect.Top, Radius, Radius, topRight, angle);
-		path.CloseFigure();
-		return new Region(path);
-	}
-	internal static Region GetSudokuFieldRegion(GameButtonField btn) {
-		int indexTopLeft = 0;
-		int indexTopRight = SudokuSize - 1;
-		int indexBottomLeft = SudokuSize * SudokuSize - SudokuSize;
-		int indexBottomRight = SudokuSize * SudokuSize - 1;
-		Control control = (btn as Control);
-		Rectangle rect = new(0, 0, control.Width, control.Height);
-		float bottomRight = 0f;
-		float bottomLeft = 90f;
-		float topLeft = 180f;
-		float topRight = 270f;
-		float angle = 90f;
-		using GraphicsPath path = new();
-		path.StartFigure();
-		if (btn.buttonIndex == indexTopLeft) {
-			path.AddArc(rect.Left, rect.Top, Radius, Radius, topLeft, angle);
-		}
-		else if (btn.buttonIndex == indexTopRight) {
-			path.AddArc(rect.Right - Radius, rect.Top, Radius, Radius, topRight, angle);
-		}
-		else if (btn.buttonIndex == indexBottomLeft) {
-			path.AddArc(rect.Left, rect.Bottom - Radius, Radius, Radius, bottomLeft, angle);
-		}
-		else if (btn.buttonIndex == indexBottomRight) {
-			path.AddArc(rect.Right - Radius, rect.Bottom - Radius, Radius, Radius, bottomRight, angle);
-		}
+		path.AddArc(rect.Right - radius, rect.Bottom - radius, radius, radius, bottomRight, angle);
+		path.AddArc(rect.Left, rect.Bottom - radius, radius, radius, bottomLeft, angle);
+		path.AddArc(rect.Left, rect.Top, radius, radius, topLeft, angle);
+		path.AddArc(rect.Right - radius, rect.Top, radius, radius, topRight, angle);
 		path.CloseFigure();
 		return new Region(path);
 	}
@@ -89,57 +59,7 @@ internal static class Helper {
 	}
 	#endregion
 
-	#region ControlCreateChild
-	internal static Control CreateChildControl((Enum, string) childData, int buttonIndex = default) {
-		if (childData.Item1.GetType() == typeof(ButtonType)) {
-			return childData.Item1 switch {
-				//ButtonType.TaskBarClose => new TaskButton(ButtonType.TaskBarClose, buttonIndex, childData.Item2),
-				//ButtonType.TaskBarMaximize => new TaskButton(ButtonType.TaskBarMaximize, buttonIndex, childData.Item2),
-				//ButtonType.TaskBarMinimize => new TaskButton(ButtonType.TaskBarMinimize, buttonIndex, childData.Item2),
-				ButtonType.MainMenuPlay => new MenuButton(ButtonType.MainMenuPlay, buttonIndex, childData.Item2),
-				ButtonType.MainMenuOption => new MenuButton(ButtonType.MainMenuOption, buttonIndex, childData.Item2),
-				ButtonType.MainMenuScoreboard => new MenuButton(ButtonType.MainMenuScoreboard, buttonIndex, childData.Item2),
-				ButtonType.PlayMenuContinue => new MenuButton(ButtonType.PlayMenuContinue, buttonIndex, childData.Item2),
-				ButtonType.PlayMenuEasy => new MenuButton(ButtonType.PlayMenuEasy, buttonIndex, childData.Item2),
-				ButtonType.PlayMenuNormal => new MenuButton(ButtonType.PlayMenuNormal, buttonIndex, childData.Item2),
-				ButtonType.PlayMenuHard => new MenuButton(ButtonType.PlayMenuHard, buttonIndex, childData.Item2),
-				ButtonType.PlayMenuExpert => new MenuButton(ButtonType.PlayMenuExpert, buttonIndex, childData.Item2),
-				ButtonType.SudokuField => new GameButtonField(ButtonType.SudokuField, buttonIndex),
-				ButtonType.SudokuNumbers => new GameButtonNumber(ButtonType.SudokuNumbers, buttonIndex),
-				ButtonType.SudokuVariants => new GameButtonVariant(ButtonType.SudokuVariants, buttonIndex),
-				_ => new Control()
-			};
-		}
-		else if (childData.Item1.GetType() == typeof(PanelType)) {
-			return childData.Item1 switch {
-				//PanelType.TaskBar => new TaskPanel(PanelType.TaskBar),
-				PanelType.MainMenu => new MenuPanel(PanelType.MainMenu),
-				PanelType.PlayMenu => new MenuPanel(PanelType.PlayMenu),
-				PanelType.OptionMenu => new MenuPanel(PanelType.OptionMenu),
-				PanelType.Scoreboard => new MenuPanel(PanelType.Scoreboard),
-				PanelType.Game => new GamePanel(PanelType.Game),
-				PanelType.GamePanelSudokuPanel => new GamePanel(PanelType.GamePanelSudokuPanel),
-				PanelType.GamePanelInputPanel => new GamePanel(PanelType.GamePanelInputPanel),
-				PanelType.GamePanelInputNumbers => new GamePanel(PanelType.GamePanelInputNumbers),
-				PanelType.GamePanelInputVariants => new GamePanel(PanelType.GamePanelInputVariants),
-				_ => new Control()
-			};
-		}
-		return default;
-	}
-	#endregion
-
 	#region ControlGamePanel
-	internal static Difficult GetDifficult(ButtonType type) {
-		return type switch {
-			ButtonType.PlayMenuContinue => Difficulty,
-			ButtonType.PlayMenuEasy => Difficult.Easy,
-			ButtonType.PlayMenuNormal => Difficult.Normal,
-			ButtonType.PlayMenuHard => Difficult.Hard,
-			ButtonType.PlayMenuExpert => Difficult.Expert,
-			_ => Difficult.None,
-		};
-	}
 	internal static void CreateSudoku(Difficult difficulty) { Core.Program.Main(["3", difficulty.ToString()]); }
 	internal static void LoadSudoku() {
 		//TODO: Load saved Sudoku Function

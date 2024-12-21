@@ -1,11 +1,9 @@
 ﻿#region Imports
-using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using static Shared.Configs.UI.Controls;
-using static UI.Controls.Helpers.NavigationControler;
 using static UI.Controls.Helpers.Helper;
-using UI.Controls.Buttons;
+using static UI.Controls.Helpers.NavigationControler;
 #endregion
 namespace UI.Controls.Panels;
 internal class FormPanel : Panel {
