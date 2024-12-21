@@ -1,6 +1,7 @@
 ﻿#region Imports
 using System;
 using System.Collections.Generic;
+using System.Security;
 #endregion
 namespace Shared.Configs.UI;
 public static class Controls {
@@ -13,14 +14,15 @@ public static class Controls {
 	public enum PanelType {
 		None,
 		TaskBar,
+		TaskMenuBar,
 		FormPanel,
 		MainMenu,
 		PlayMenu,
 		OptionMenu,
 		Scoreboard,
 		Game,
-		GameSubSudoku,
-		GameSubInput,
+		GamePanelSudokuPanel,
+		GamePanelInputPanel,
 		GameSubInputSubNumbers,
 		GameSubInputSubVariants
 	}
@@ -58,13 +60,19 @@ public static class Controls {
 	public static readonly int TaskPanelWidth = MainFormWidth;
 	public static readonly int TaskPanelHeight = 30;
 	public static readonly int TaskButtonSize = 30;
+	public static readonly int GoBackButtonWidth = 100;
+	public static readonly int GoBackButtonHeight = 30;
 	public static readonly int MainMenuButtonWidth = 300;
 	public static readonly int MainMenuButtonHeight = 50;
+	public static readonly int PlayMenuButtonWidth = 300;
+	public static readonly int PlayMenuButtonHeight = 50;
 	public static readonly int GameButtonSize = 25;
 	#endregion
 
 	#region ControlMargin
+	public static readonly int GoBackButtonMargin = 25;
 	public static readonly int MainMenuButtonMargin = 25;
+	public static readonly int PlayMenuButtonMargin = 25;
 	public static readonly int GameButtonMargin = 5;
 	#endregion
 
@@ -87,11 +95,11 @@ public static class Controls {
 	};
 	public static readonly Dictionary<PanelType, List<(Enum, string)>> GamePanelChilds = new() {
 		[PanelType.Game] = [
-			(PanelType.GameSubSudoku, ""),
-			(PanelType.GameSubInput, "")
+			(PanelType.GamePanelSudokuPanel, ""),
+			(PanelType.GamePanelInputPanel, "")
 			],
-		[PanelType.GameSubSudoku] = [(ButtonType.SudokuField, ""),],
-		[PanelType.GameSubInput] = [
+		[PanelType.GamePanelSudokuPanel] = [(ButtonType.SudokuField, ""),],
+		[PanelType.GamePanelInputPanel] = [
 			(PanelType.GameSubInputSubNumbers, ""),
 			(PanelType.GameSubInputSubVariants, "")
 			],

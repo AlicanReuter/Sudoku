@@ -1,8 +1,11 @@
 ﻿#region Imports
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using static Shared.Configs.UI.Controls;
 using static UI.Controls.Helpers.NavigationControler;
+using static UI.Controls.Helpers.Helper;
+using UI.Controls.Buttons;
 #endregion
 namespace UI.Controls.Panels;
 internal class FormPanel : Panel {
@@ -16,7 +19,8 @@ internal class FormPanel : Panel {
 		this.Visible = true;
 		this.BackColor = Color.Transparent;
 		this.Size = new Size(MainFormWidth, MainFormHeight - TaskPanelHeight);
-		this.Location = new Point(0, TaskPanelHeight);
+		this.Region = GetRegion(this);
+		this.Location = new Point(0, TaskPanelHeight + TaskPanelHeight);
 		AddChilds();
 	}
 	private void AddChilds() {

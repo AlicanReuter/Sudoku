@@ -7,10 +7,10 @@ using static UI.Controls.Helpers.Helper;
 using static UI.Controls.Helpers.NavigationControler;
 #endregion
 namespace UI.Controls.Buttons;
-internal class MainMenuButton : Button {
+internal class GoBackButton : Button {
 	internal ButtonType buttonType;
 	internal int buttonIndex;
-	internal MainMenuButton(ButtonType type, int index) {
+	internal GoBackButton(ButtonType type, int index) {
 		this.buttonType = type;
 		this.buttonIndex = index;
 		InitializeControl();
@@ -18,42 +18,21 @@ internal class MainMenuButton : Button {
 	private void InitializeControl() {
 		this.Visible = true;
 		this.BackColor = Color.Transparent;
+		this.Enabled = false;
 		this.ForeColor = Color.White;
 		this.FlatAppearance.BorderSize = 0;
+		this.Font = new Font(this.Font.FontFamily, 14, FontStyle.Bold);
 		this.FlatStyle = FlatStyle.Flat;
-		this.Size = new(MainMenuButtonWidth, MainMenuButtonHeight);
-		this.Location = GetLocation();
-		this.Text = GetText();
+		this.Size = new(GoBackButtonWidth, GoBackButtonHeight);
+		this.Location = new Point(GoBackButtonMargin, 0);
+		this.Text = "\U00002B05";
 		this.Region = GetRegion(this);
 		this.MouseClick += new MouseEventHandler(ClickControl);
 		this.MouseEnter += EnterControl;
 		this.MouseLeave += LeaveControl;
 	}
-	private Point GetLocation() {
-		int xCoordinate = 0;
-		int yCoordinate = (MainMenuButtonHeight + MainMenuButtonMargin) * buttonIndex;
-		return new Point(xCoordinate, yCoordinate);
-	}
-	private string GetText() {
-		return buttonType switch {
-			ButtonType.MainMenuPlay => "Play",
-			ButtonType.MainMenuOption => "Option",
-			ButtonType.MainMenuScoreboard => "Scoreboard",
-			_ => ""
-		};
-	}
 	private void ClickControl(object sender, MouseEventArgs e) {
-		switch (buttonType) {
-			case ButtonType.MainMenuPlay:
-				VisitNextScreen(this);
-				break;
-			case ButtonType.MainMenuOption:
-				VisitNextScreen(this);
-				break;
-			case ButtonType.MainMenuScoreboard:
-				VisitNextScreen(this);
-				break;
-		}
+		VisitPreviousScreen();
 	}
 	private void EnterControl(object sender, EventArgs e) {
 		this.BackColor = Color.White;

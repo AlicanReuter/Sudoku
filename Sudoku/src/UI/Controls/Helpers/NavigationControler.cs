@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using static Shared.Configs.UI.Controls;
@@ -6,6 +7,7 @@ using static Shared.Configs.UI.Controls;
 namespace UI.Controls.Helpers;
 internal class NavigationControler {
 	private static NavigationControler instance = null;
+	internal static Control rootCntrl = default;
 	private static readonly List<Control> visited = [];
 	private NavigationControler() { }
 	internal static NavigationControler Instance {
@@ -14,9 +16,9 @@ internal class NavigationControler {
 			return instance;
 		}
 	}
+	internal static void SetRootControl(Control cntrl) { rootCntrl = cntrl; }
 	internal static void VisitFirstScreen(Control cntrl) {
 		foreach (Control child in cntrl.Controls) {
-			if (child.GetType() == typeof(Button)) { continue; }
 			if ((child as dynamic).panelType != PanelType.MainMenu) { continue; }
 			child.Visible = true;
 			visited.Add(child);
@@ -28,11 +30,13 @@ internal class NavigationControler {
 		visited.Last().Visible = false;
 		nextCntrl.Visible = true;
 		visited.Add(nextCntrl);
+		EnableGoBackButton();
 	}
 	internal static void VisitPreviousScreen() {
 		visited.Last().Visible = false;
 		visited.RemoveAt(visited.Count() - 1);
 		visited.Last().Visible = true;
+		DisableGoBackButton();
 	}
 	private static Control FindNextControl(Control cntrl) {
 		PanelType nextControlType = GetNextPanelType(cntrl);
@@ -58,4 +62,6 @@ internal class NavigationControler {
 			_ => PanelType.None
 		};
 	}
+	private static void EnableGoBackButton() { rootCntrl.Controls[1].Controls[0].Enabled = true; }
+	private static void DisableGoBackButton() { if (visited.Count <= 1) { rootCntrl.Controls[1].Controls[0].Enabled = false; } }
 }

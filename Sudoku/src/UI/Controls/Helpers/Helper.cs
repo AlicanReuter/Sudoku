@@ -8,6 +8,7 @@ using UI.Controls.Buttons;
 using UI.Controls.Panels;
 using static Shared.Configs.Core.SudokuCreation;
 using static Shared.Configs.UI.Controls;
+using static UI.Controls.Helpers.NavigationControler;
 #endregion
 namespace UI.Controls.Helpers;
 internal static class Helper {
@@ -88,8 +89,8 @@ internal static class Helper {
 				PanelType.OptionMenu => new MenuPanel(PanelType.OptionMenu),
 				PanelType.Scoreboard => new MenuPanel(PanelType.Scoreboard),
 				PanelType.Game => new GamePanel(PanelType.Game),
-				PanelType.GameSubSudoku => new GamePanel(PanelType.GameSubSudoku),
-				PanelType.GameSubInput => new GamePanel(PanelType.GameSubInput),
+				PanelType.GamePanelSudokuPanel => new GamePanel(PanelType.GamePanelSudokuPanel),
+				PanelType.GamePanelInputPanel => new GamePanel(PanelType.GamePanelInputPanel),
 				PanelType.GameSubInputSubNumbers => new GamePanel(PanelType.GameSubInputSubNumbers),
 				PanelType.GameSubInputSubVariants => new GamePanel(PanelType.GameSubInputSubVariants),
 				_ => new Control()
@@ -111,11 +112,13 @@ internal static class Helper {
 		};
 	}
 	internal static void CreateSudoku(Difficult difficulty) { Core.Program.Main(["3", difficulty.ToString()]); }
-	internal static Control CreateGamePanel(Control cntrl) {
-		Control parent = cntrl.Parent.Parent;
+	internal static void LoadSudoku() {
+		//TODO: Load saved Sudoku Function
+		Core.Program.Main(["3", Difficult.Expert.ToString()]);
+	}
+	internal static void CreateGamePanel() {
 		Control child = (new GamePanel(PanelType.Game)) as Control;
-		parent.Controls.Add(child);
-		return child;
+		rootCntrl.Controls[2].Controls.Add(child);
 	}
 	internal static void SetLocation(Control cntrl) {
 		if (cntrl.GetType() != typeof(GamePanel)) { return; }
@@ -133,11 +136,11 @@ internal static class Helper {
 				xCoordinate = (cntrl.Parent.Width - cntrl.Width) / 2;
 				yCoordinate = (cntrl.Parent.Height - cntrl.Height) / 2;
 				break;
-			case PanelType.GameSubSudoku:
+			case PanelType.GamePanelSudokuPanel:
 				xCoordinate = 0;
 				yCoordinate = 0;
 				break;
-			case PanelType.GameSubInput:
+			case PanelType.GamePanelInputPanel:
 				xCoordinate = (cntrl.Parent.Width - cntrl.Width) / 2;
 				yCoordinate = cntrl.Parent.Controls[0].Height + GameButtonSize + GameButtonMargin;
 				break;

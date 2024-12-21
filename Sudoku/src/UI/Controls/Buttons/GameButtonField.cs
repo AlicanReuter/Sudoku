@@ -27,7 +27,10 @@ internal class GameButtonField : Button {
 		this.Text = GetText();
 	}
 	private Point GetLocation() {
-		int xCoordinate = (this.Width + GameButtonMargin) * (buttonIndex % SudokuSize);
+		//TODO:
+		int marginInSquare = (GameButtonMargin / 2) * (buttonIndex / SudokuSquareSize);
+		int marginBetweenSquare = GameButtonMargin * ((buttonIndex % SudokuSize) / SudokuSquareSize);
+		int xCoordinate = (this.Width + (buttonIndex % 1)) * (buttonIndex % SudokuSize);
 		int yCoordinate = (this.Height + GameButtonMargin) * (buttonIndex / SudokuSize);
 		return new Point(xCoordinate, yCoordinate);
 	}

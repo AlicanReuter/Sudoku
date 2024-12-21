@@ -1,8 +1,10 @@
 ﻿#region Imports
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using UI.Controls.Buttons;
 using static Shared.Configs.UI.Controls;
+using static UI.Controls.Helpers.Helper;
 #endregion
 namespace UI.Controls.Panels;
 internal class MainMenuPanel : Panel {
@@ -16,14 +18,14 @@ internal class MainMenuPanel : Panel {
 		this.BackColor = Color.Transparent;
 		AddChilds();
 		this.Size = GetSize();
+		this.Region = GetRegion(this);
 	}
 	private void AddChilds() {
-		MainMenuButton play = new(ButtonType.MainMenuPlay, 0);
-		MainMenuButton option = new(ButtonType.MainMenuOption, 1);
-		MainMenuButton scoreboard = new(ButtonType.MainMenuScoreboard, 2);
-		this.Controls.Add(play);
-		this.Controls.Add(option);
-		this.Controls.Add(scoreboard);
+		List<ButtonType> types = [ButtonType.MainMenuPlay, ButtonType.MainMenuOption, ButtonType.MainMenuScoreboard];
+		foreach (ButtonType type in types) {
+			MainMenuButton btn = new(type, types.IndexOf(type));
+			this.Controls.Add(btn);
+		}
 	}
 	private Size GetSize() {
 		int widthMenu = MainMenuButtonWidth;

@@ -14,20 +14,17 @@ internal class ScoreboardPanel : Panel {
 	}
 	internal void InitializeControl() {
 		this.Visible = false;
-		this.BackColor = Color.Transparent;
+		this.BackColor = Color.DarkGray;//Color.Transparent;
 		AddSubControls();
 		this.Size = GetSize();
+		this.Region = GetRegion(this);
 	}
 	private void AddSubControls() {
-		int buttonIndex = 0;
-		foreach ((Enum, string) childData in MenuPanelChilds[panelType]) {
-			this.Controls.Add(CreateChildControl(childData, buttonIndex));
-			buttonIndex++;
-		}
+		//TODO: Add Scoreboard
 	}
 	private Size GetSize() {
-		int widthMenu = MainMenuButtonWidth;
-		int heightMenu = (this.Controls.Count * (MainMenuButtonHeight + MainMenuButtonMargin)) - MainMenuButtonMargin;
+		int widthMenu = 300;
+		int heightMenu = 50;
 		return new Size(widthMenu, heightMenu);
 	}
 	internal void SetLocation() {

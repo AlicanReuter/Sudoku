@@ -54,9 +54,9 @@ internal class MenuButton : Button {
 	}
 	private void ButtonClickStartGame(object sender, MouseEventArgs mouseEventArgs) {
 		CreateSudoku(GetDifficult(this.buttonType));
-		Control game = CreateGamePanel((sender as Control));
+		//Control game = CreateGamePanel((sender as Control));
 		//AddToRootControl(game);
-		SetLocation(game);
+		//SetLocation(game);
 		//VisitScreen(game);
 	}
 }

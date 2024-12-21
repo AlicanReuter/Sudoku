@@ -1,7 +1,8 @@
 ﻿#region Imports
-using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using UI.Controls.Buttons;
 using static Shared.Configs.UI.Controls;
 using static UI.Controls.Helpers.Helper;
 #endregion
@@ -14,20 +15,17 @@ internal class OptionMenuPanel : Panel {
 	}
 	internal void InitializeControl() {
 		this.Visible = false;
-		this.BackColor = Color.Transparent;
-		AddSubControls();
+		this.BackColor = Color.DarkGray;//Color.Transparent;
+		AddChilds();
 		this.Size = GetSize();
+		this.Region = GetRegion(this);
 	}
-	private void AddSubControls() {
-		int buttonIndex = 0;
-		foreach ((Enum, string) childData in MenuPanelChilds[panelType]) {
-			this.Controls.Add(CreateChildControl(childData, buttonIndex));
-			buttonIndex++;
-		}
+	private void AddChilds() {
+		//TODO: Add Options
 	}
 	private Size GetSize() {
-		int widthMenu = MainMenuButtonWidth;
-		int heightMenu = (this.Controls.Count * (MainMenuButtonHeight + MainMenuButtonMargin)) - MainMenuButtonMargin;
+		int widthMenu = 300;
+		int heightMenu = 50;
 		return new Size(widthMenu, heightMenu);
 	}
 	internal void SetLocation() {

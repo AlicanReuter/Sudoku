@@ -5,12 +5,13 @@ using System.Windows.Forms;
 using static Shared.Configs.UI.Controls;
 using static UI.Controls.Helpers.Helper;
 using static UI.Controls.Helpers.NavigationControler;
+using static Shared.Configs.Core.SudokuCreation;
 #endregion
 namespace UI.Controls.Buttons;
-internal class MainMenuButton : Button {
+internal class PlayMenuButton : Button {
 	internal ButtonType buttonType;
 	internal int buttonIndex;
-	internal MainMenuButton(ButtonType type, int index) {
+	internal PlayMenuButton(ButtonType type, int index) {
 		this.buttonType = type;
 		this.buttonIndex = index;
 		InitializeControl();
@@ -36,24 +37,35 @@ internal class MainMenuButton : Button {
 	}
 	private string GetText() {
 		return buttonType switch {
-			ButtonType.MainMenuPlay => "Play",
-			ButtonType.MainMenuOption => "Option",
-			ButtonType.MainMenuScoreboard => "Scoreboard",
+			ButtonType.PlayMenuContinue => "Continue",
+			ButtonType.PlayMenuEasy => "Easy",
+			ButtonType.PlayMenuNormal => "Normal",
+			ButtonType.PlayMenuHard => "Hard",
+			ButtonType.PlayMenuExpert => "Expert",
 			_ => ""
 		};
 	}
 	private void ClickControl(object sender, MouseEventArgs e) {
+
 		switch (buttonType) {
-			case ButtonType.MainMenuPlay:
-				VisitNextScreen(this);
+			case ButtonType.PlayMenuContinue:
+				LoadSudoku();
 				break;
-			case ButtonType.MainMenuOption:
-				VisitNextScreen(this);
+			case ButtonType.PlayMenuEasy:
+				CreateSudoku(Difficult.Easy);
 				break;
-			case ButtonType.MainMenuScoreboard:
-				VisitNextScreen(this);
+			case ButtonType.PlayMenuNormal:
+				CreateSudoku(Difficult.Normal);
+				break;
+			case ButtonType.PlayMenuHard:
+				CreateSudoku(Difficult.Hard);
+				break;
+			case ButtonType.PlayMenuExpert:
+				CreateSudoku(Difficult.Expert);
 				break;
 		}
+		CreateGamePanel();
+		VisitNextScreen(this);
 	}
 	private void EnterControl(object sender, EventArgs e) {
 		this.BackColor = Color.White;

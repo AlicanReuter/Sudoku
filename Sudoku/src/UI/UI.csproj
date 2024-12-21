@@ -56,10 +56,16 @@
     <Compile Include="Controls\Buttons\GameButtonVariant.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\Buttons\GoBackButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Buttons\MainMenuButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\Buttons\MenuButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Buttons\PlayMenuButton.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\Buttons\TaskButton.cs">
@@ -76,6 +82,9 @@
     <Compile Include="Controls\Panels\GamePanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\Panels\GamePanelSudoku.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Panels\MainMenuPanel.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -89,6 +98,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\Panels\ScoreboardPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Panels\TaskMenuPanel.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Controls\Panels\TaskPanel.cs">
