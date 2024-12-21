@@ -6,17 +6,10 @@ using static Shared.Configs.UI.Controls;
 #endregion
 namespace UI.Controls.Helpers;
 internal class NavigationControler {
-	//private static NavigationControler instance = null;
-	internal static Control rootCntrl = default;
+	internal static Control RootCntrl { get; set; }
 	private static readonly List<Control> visited = [];
-	//private NavigationControler() { }
-	//internal static NavigationControler Instance {
-	//	get {
-	//		instance ??= new NavigationControler();
-	//		return instance;
-	//	}
-	//}
-	internal static void SetRootControl(Control cntrl) { rootCntrl = cntrl; }
+
+	#region NavigationFunctions
 	internal static void VisitFirstScreen(Control cntrl) {
 		foreach (Control child in cntrl.Controls) {
 			if ((child as dynamic).panelType != PanelType.MainMenu) { continue; }
@@ -62,6 +55,10 @@ internal class NavigationControler {
 			_ => PanelType.None
 		};
 	}
-	private static void EnableGoBackButton() { rootCntrl.Controls[1].Controls[0].Enabled = true; }
-	private static void DisableGoBackButton() { if (visited.Count <= 1) { rootCntrl.Controls[1].Controls[0].Enabled = false; } }
+	#endregion
+
+	#region NavigationHelperFunctions
+	private static void EnableGoBackButton() { RootCntrl.Controls[1].Controls[0].Enabled = true; }
+	private static void DisableGoBackButton() { if (visited.Count <= 1) { RootCntrl.Controls[1].Controls[0].Enabled = false; } }
+	#endregion
 }

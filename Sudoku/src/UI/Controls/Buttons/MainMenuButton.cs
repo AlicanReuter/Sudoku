@@ -45,11 +45,11 @@ internal class MainMenuButton : Button {
 	private void ClickControl(object sender, MouseEventArgs e) {
 		switch (buttonType) {
 			case ButtonType.MainMenuPlay:
-				//VisitNextScreen(this);
-				while (true) {
-					VisitNextScreen(this);
-					(this.Parent.Parent.Parent.Controls[1].Controls[0] as GoBackButton).ClickControl(this, new MouseEventArgs(MouseButtons.Left, 1, 100, 50, 0));
-				}
+				VisitNextScreen(this);
+				//while (true) {
+				//	VisitNextScreen(this);
+				//	(this.Parent.Parent.Parent.Controls[1].Controls[0] as GoBackButton).ClickControl(this, new MouseEventArgs(MouseButtons.Left, 1, 100, 50, 0));
+				//}
 				break;
 			case ButtonType.MainMenuOption:
 				VisitNextScreen(this);

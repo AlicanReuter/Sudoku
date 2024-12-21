@@ -67,7 +67,7 @@ internal static class Helper {
 	}
 	internal static void CreateGamePanel() {
 		Control child = new GamePanel(PanelType.Game);
-		rootCntrl.Controls[2].Controls.Add(child);
+		RootCntrl.Controls[2].Controls.Add(child);
 	}
 	internal static void SetLocation(Control cntrl) {
 		if (cntrl.GetType() != typeof(GamePanel)) { return; }

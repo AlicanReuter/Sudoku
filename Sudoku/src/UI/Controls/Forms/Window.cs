@@ -20,7 +20,7 @@ internal class Window : Form {
 		this.Region = GetRegion(this);
 		this.BackColor = Color.Gray;
 		AddChilds();
-		SetRootControl(this);
+		RootCntrl = this;
 	}
 	private void AddChilds() {
 		this.Controls.Add(new TaskPanel(PanelType.TaskBar));
