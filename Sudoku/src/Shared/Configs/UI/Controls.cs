@@ -1,7 +1,6 @@
 ﻿#region Imports
 using System;
 using System.Collections.Generic;
-using System.Security;
 #endregion
 namespace Shared.Configs.UI;
 public static class Controls {
@@ -23,8 +22,8 @@ public static class Controls {
 		Game,
 		GamePanelSudokuPanel,
 		GamePanelInputPanel,
-		GameSubInputSubNumbers,
-		GameSubInputSubVariants
+		GamePanelInputNumbers,
+		GamePanelInputVariants
 	}
 	public enum ButtonType {
 		None,
@@ -66,7 +65,7 @@ public static class Controls {
 	public static readonly int MainMenuButtonHeight = 50;
 	public static readonly int PlayMenuButtonWidth = 300;
 	public static readonly int PlayMenuButtonHeight = 50;
-	public static readonly int GameButtonSize = 25;
+	public static readonly int GameButtonSize = 30;
 	#endregion
 
 	#region ControlMargin
@@ -100,13 +99,13 @@ public static class Controls {
 			],
 		[PanelType.GamePanelSudokuPanel] = [(ButtonType.SudokuField, ""),],
 		[PanelType.GamePanelInputPanel] = [
-			(PanelType.GameSubInputSubNumbers, ""),
-			(PanelType.GameSubInputSubVariants, "")
+			(PanelType.GamePanelInputNumbers, ""),
+			(PanelType.GamePanelInputVariants, "")
 			],
-		[PanelType.GameSubInputSubNumbers] = [
+		[PanelType.GamePanelInputNumbers] = [
 			(ButtonType.SudokuNumbers, "")
 			],
-		[PanelType.GameSubInputSubVariants] = [
+		[PanelType.GamePanelInputVariants] = [
 			(ButtonType.SudokuVariants, "")
 			]
 	};

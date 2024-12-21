@@ -17,7 +17,7 @@ internal class GoBackButton : Button {
 	}
 	private void InitializeControl() {
 		this.Visible = true;
-		this.BackColor = Color.Transparent;
+		this.BackColor = Color.DarkGray;
 		this.Enabled = false;
 		this.ForeColor = Color.White;
 		this.FlatAppearance.BorderSize = 0;
@@ -31,7 +31,7 @@ internal class GoBackButton : Button {
 		this.MouseEnter += EnterControl;
 		this.MouseLeave += LeaveControl;
 	}
-	private void ClickControl(object sender, MouseEventArgs e) {
+	internal void ClickControl(object sender, MouseEventArgs e) {
 		VisitPreviousScreen();
 	}
 	private void EnterControl(object sender, EventArgs e) {
@@ -39,7 +39,7 @@ internal class GoBackButton : Button {
 		this.ForeColor = Color.Black;
 	}
 	private void LeaveControl(object sender, EventArgs e) {
-		this.BackColor = Color.Transparent;
+		this.BackColor = Color.DarkGray;
 		this.ForeColor = Color.White;
 	}
 }

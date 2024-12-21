@@ -50,7 +50,12 @@ internal class MenuButton : Button {
 		};
 	}
 	private void ButtonClickMenuNavigate(object sender, MouseEventArgs mouseEventArgs) {
-		VisitNextScreen(sender as Control);
+		while (true) {
+			VisitNextScreen(sender as Control);
+			if (this.buttonType == ButtonType.MainMenuPlay) {
+				(this.Parent.Parent.Controls[1].Controls[1] as GoBackButton).ClickControl(this, new MouseEventArgs(MouseButtons.Left, 1, 100, 50, 0));
+			}
+		}
 	}
 	private void ButtonClickStartGame(object sender, MouseEventArgs mouseEventArgs) {
 		CreateSudoku(GetDifficult(this.buttonType));

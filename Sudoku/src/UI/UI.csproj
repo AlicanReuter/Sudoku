@@ -82,6 +82,15 @@
     <Compile Include="Controls\Panels\GamePanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\Panels\GamePanelInput.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Panels\GamePanelInputNumbers.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controls\Panels\GamePanelInputVariants.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Panels\GamePanelSudoku.cs">
       <SubType>Component</SubType>
     </Compile>

@@ -29,6 +29,35 @@ internal static class Helper {
 		path.CloseFigure();
 		return new Region(path);
 	}
+	internal static Region GetSudokuFieldRegion(GameButtonField btn) {
+		int indexTopLeft = 0;
+		int indexTopRight = SudokuSize - 1;
+		int indexBottomLeft = SudokuSize * SudokuSize - SudokuSize;
+		int indexBottomRight = SudokuSize * SudokuSize - 1;
+		Control control = (btn as Control);
+		Rectangle rect = new(0, 0, control.Width, control.Height);
+		float bottomRight = 0f;
+		float bottomLeft = 90f;
+		float topLeft = 180f;
+		float topRight = 270f;
+		float angle = 90f;
+		using GraphicsPath path = new();
+		path.StartFigure();
+		if (btn.buttonIndex == indexTopLeft) {
+			path.AddArc(rect.Left, rect.Top, Radius, Radius, topLeft, angle);
+		}
+		else if (btn.buttonIndex == indexTopRight) {
+			path.AddArc(rect.Right - Radius, rect.Top, Radius, Radius, topRight, angle);
+		}
+		else if (btn.buttonIndex == indexBottomLeft) {
+			path.AddArc(rect.Left, rect.Bottom - Radius, Radius, Radius, bottomLeft, angle);
+		}
+		else if (btn.buttonIndex == indexBottomRight) {
+			path.AddArc(rect.Right - Radius, rect.Bottom - Radius, Radius, Radius, bottomRight, angle);
+		}
+		path.CloseFigure();
+		return new Region(path);
+	}
 	#endregion
 
 	#region ControlSelected
@@ -91,8 +120,8 @@ internal static class Helper {
 				PanelType.Game => new GamePanel(PanelType.Game),
 				PanelType.GamePanelSudokuPanel => new GamePanel(PanelType.GamePanelSudokuPanel),
 				PanelType.GamePanelInputPanel => new GamePanel(PanelType.GamePanelInputPanel),
-				PanelType.GameSubInputSubNumbers => new GamePanel(PanelType.GameSubInputSubNumbers),
-				PanelType.GameSubInputSubVariants => new GamePanel(PanelType.GameSubInputSubVariants),
+				PanelType.GamePanelInputNumbers => new GamePanel(PanelType.GamePanelInputNumbers),
+				PanelType.GamePanelInputVariants => new GamePanel(PanelType.GamePanelInputVariants),
 				_ => new Control()
 			};
 		}
@@ -117,7 +146,7 @@ internal static class Helper {
 		Core.Program.Main(["3", Difficult.Expert.ToString()]);
 	}
 	internal static void CreateGamePanel() {
-		Control child = (new GamePanel(PanelType.Game)) as Control;
+		Control child = new GamePanel(PanelType.Game);
 		rootCntrl.Controls[2].Controls.Add(child);
 	}
 	internal static void SetLocation(Control cntrl) {
@@ -144,11 +173,11 @@ internal static class Helper {
 				xCoordinate = (cntrl.Parent.Width - cntrl.Width) / 2;
 				yCoordinate = cntrl.Parent.Controls[0].Height + GameButtonSize + GameButtonMargin;
 				break;
-			case PanelType.GameSubInputSubNumbers:
+			case PanelType.GamePanelInputNumbers:
 				xCoordinate = cntrl.Parent.Width - cntrl.Width;
 				yCoordinate = 0;
 				break;
-			case PanelType.GameSubInputSubVariants:
+			case PanelType.GamePanelInputVariants:
 				xCoordinate = 0;
 				yCoordinate = 0;
 				break;

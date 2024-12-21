@@ -23,15 +23,26 @@ internal class GameButtonField : Button {
 		this.Size = new(GameButtonSize, GameButtonSize);
 		this.Location = GetLocation();
 		this.MouseClick += new MouseEventHandler(ButtonClick);
-		//this.Region = GetRegion(this);
 		this.Text = GetText();
 	}
 	private Point GetLocation() {
 		//TODO:
-		int marginInSquare = (GameButtonMargin / 2) * (buttonIndex / SudokuSquareSize);
-		int marginBetweenSquare = GameButtonMargin * ((buttonIndex % SudokuSize) / SudokuSquareSize);
-		int xCoordinate = (this.Width + (buttonIndex % 1)) * (buttonIndex % SudokuSize);
-		int yCoordinate = (this.Height + GameButtonMargin) * (buttonIndex / SudokuSize);
+		int row = buttonIndex % SudokuSize;
+		int column = buttonIndex / SudokuSize;
+		int squareRow = (row / SudokuSquareSize) + 1;
+		int squareColumn = (column / SudokuSquareSize) + 1;
+
+		int marginFieldRow = (GameButtonMargin / 2) * row;
+		int marginFieldColumn = (GameButtonMargin / 2) * column;
+
+		int marginSquareRow = GameButtonMargin * squareRow;
+		int marginSquareColumn = GameButtonMargin * squareColumn;
+
+		int xCoordinate = (this.Width * row) + marginFieldRow + marginSquareRow;
+		int yCoordinate = (this.Height * column) + marginFieldColumn + marginSquareColumn;
+		if (buttonIndex == 5) {
+			Console.WriteLine();
+		}
 		return new Point(xCoordinate, yCoordinate);
 	}
 	private string GetText() {

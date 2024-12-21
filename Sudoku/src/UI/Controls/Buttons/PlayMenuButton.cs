@@ -2,10 +2,10 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using static Shared.Configs.Core.SudokuCreation;
 using static Shared.Configs.UI.Controls;
 using static UI.Controls.Helpers.Helper;
 using static UI.Controls.Helpers.NavigationControler;
-using static Shared.Configs.Core.SudokuCreation;
 #endregion
 namespace UI.Controls.Buttons;
 internal class PlayMenuButton : Button {
@@ -46,7 +46,6 @@ internal class PlayMenuButton : Button {
 		};
 	}
 	private void ClickControl(object sender, MouseEventArgs e) {
-
 		switch (buttonType) {
 			case ButtonType.PlayMenuContinue:
 				LoadSudoku();

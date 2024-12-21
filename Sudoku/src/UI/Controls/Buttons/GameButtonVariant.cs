@@ -16,7 +16,7 @@ internal class GameButtonVariant : Button {
 	}
 	private void InitializeButton() {
 		this.Visible = true;
-		this.BackColor = Color.Transparent;
+		this.BackColor = Color.AliceBlue;
 		this.FlatAppearance.BorderSize = 0;
 		this.FlatStyle = FlatStyle.Flat;
 		this.Size = new(GameButtonSize, GameButtonSize);

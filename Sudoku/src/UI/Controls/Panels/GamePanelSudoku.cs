@@ -1,11 +1,9 @@
 ﻿#region Imports
-using System;
 using System.Drawing;
 using System.Windows.Forms;
 using UI.Controls.Buttons;
 using static Shared.Configs.Core.SudokuCreation;
 using static Shared.Configs.UI.Controls;
-using static UI.Controls.Helpers.Helper;
 #endregion
 
 namespace UI.Controls.Panels;
@@ -19,13 +17,23 @@ internal class GamePanelSudoku : Panel {
 		this.Visible = true;
 		this.BackColor = Color.Black;
 		AddChildControls();
-		this.Size = new Size(SudokuSize * (GameButtonSize + GameButtonMargin), SudokuSize * (GameButtonSize + GameButtonMargin));
-		this.Region = GetRegion(this);
+		this.Size = GetSize();
 	}
 	private void AddChildControls() {
 		int buttonCount = SudokuSize * SudokuSize;
 		for (int buttonIndex = 0; buttonIndex < buttonCount; buttonIndex++) {
 			this.Controls.Add(new GameButtonField(ButtonType.SudokuField, buttonIndex));
 		}
+	}
+	private Size GetSize() {
+		Control lastChild = this.Controls[this.Controls.Count - 1];
+		int width = lastChild.Location.X + lastChild.Width + GameButtonMargin;
+		int height = lastChild.Location.Y + lastChild.Height + GameButtonMargin;
+		return new Size(width, height);
+	}
+	internal void SetLocation() {
+		int xCoordinate = (this.Parent.Width - this.Width) / 2;
+		int yCoordinate = (this.Parent.Height - (this.Parent.Height / 3) - this.Height) / 2;
+		this.Location = new Point(xCoordinate, yCoordinate);
 	}
 }
