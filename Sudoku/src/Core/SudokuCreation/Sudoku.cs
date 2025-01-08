@@ -21,16 +21,16 @@ internal class Sudoku {
 	private void SetDifficulty() {
 		switch (Difficulty) {
 			case Difficult.Easy:
-				RemoveNumbers(12);
+				RemoveNumbers(3);
 				break;
 			case Difficult.Normal:
-				RemoveNumbers(29);
+				RemoveNumbers(4);
 				break;
 			case Difficult.Hard:
-				RemoveNumbers(47);
+				RemoveNumbers(5);
 				break;
 			case Difficult.Expert:
-				RemoveNumbers(64);
+				RemoveNumbers(7);
 				break;
 			default:
 				RemoveNumbers(0);
@@ -38,50 +38,72 @@ internal class Sudoku {
 		}
 	}
 
-	private void RemoveNumbers(int count) {
+	private void RemoveNumbers(int removableNumberCount) {
+		for (int squareIndex = 0; squareIndex < SudokuSize; squareIndex++) {
+			DeleteRandomNumber(GetFieldIndizesInSquare(squareIndex), removableNumberCount);
+		}
+		//Random rng = new();
+		//List<int> availableButtonIndexes = [];
+		//int lastIndex = SudokuSize * SudokuSize;
+		//int currentButtonIndex, nextRNG, row, col;
+		//for (int i = 0; i < lastIndex; i++) { availableButtonIndexes.Add(i); }
+		//availableButtonIndexes = [.. availableButtonIndexes.OrderBy(x => rng.Next())];
+		//for (int i = 0; i < count; i++) {
+		//	nextRNG = rng.Next(0, availableButtonIndexes.Count);
+		//	currentButtonIndex = availableButtonIndexes[nextRNG];
+		//	availableButtonIndexes.RemoveAt(nextRNG);
+		//	row = currentButtonIndex / SudokuSize;
+		//	col = currentButtonIndex % SudokuSize;
+		//	UnsolvedSudoku[row][col] = 0;
+		//	i += RemoveUnnecessaryFields(ref availableButtonIndexes, currentButtonIndex);
+		//}
+	}
+
+	private List<(int, int)> GetFieldIndizesInSquare(int squareIndex) {
+		List<(int, int)> fields = [];
+		for (int row = squareIndex % SudokuSquareSize; row < SudokuSquareSize; row++) {
+			for (int column = squareIndex / SudokuSquareSize; column < SudokuSquareSize; column++) {
+				fields.Add((row, column));
+			}
+		}
+		return fields;
+	}
+
+	private void DeleteRandomNumber(List<(int, int)> fieldIndizes, int removableNumberCount) {
 		Random rng = new();
-		List<int> availableButtonIndexes = [];
-		int lastIndex = SudokuSize * SudokuSize;
-		int currentButtonIndex, nextRNG, row, col;
-		for (int i = 0; i < lastIndex; i++) { availableButtonIndexes.Add(i); }
-		availableButtonIndexes = [.. availableButtonIndexes.OrderBy(x => rng.Next())];
-		for (int i = 0; i < count; i++) {
-			nextRNG = rng.Next(0, availableButtonIndexes.Count);
-			currentButtonIndex = availableButtonIndexes[nextRNG];
-			availableButtonIndexes.RemoveAt(nextRNG);
-			row = currentButtonIndex / SudokuSize;
-			col = currentButtonIndex % SudokuSize;
-			UnsolvedSudoku[row][col] = 0;
-			i += RemoveUnnecessaryFields(ref availableButtonIndexes, currentButtonIndex);
+		fieldIndizes = [.. fieldIndizes.OrderBy(x => rng.Next())];
+		for (int i = 0; i < removableNumberCount; i++) {
+			var rndFieldIndex = fieldIndizes[rng.Next(0, fieldIndizes.Count)];
+			UnsolvedSudoku[rndFieldIndex.Item1][rndFieldIndex.Item2] = 0;
 		}
 	}
 
-	private int RemoveUnnecessaryFields(ref List<int> availableButtonIndexes, int currentButtonIndex) {
-		int rowStart, rowCurrent, rowEnd, colStart, colCurrent, colEnd, emptyFieldCount, removableIndex, removeCount;
-		rowCurrent = currentButtonIndex / SudokuSize;
-		colCurrent = currentButtonIndex % SudokuSize;
-		rowStart = GetStartIndex(rowCurrent);
-		rowEnd = rowStart + SudokuSquareSize;
-		colStart = GetStartIndex(colCurrent);
-		colEnd = colStart + SudokuSquareSize;
-		emptyFieldCount = 0;
-		for (int row = rowStart; row < rowEnd; row++) {
-			for (int col = colStart; col < colEnd; col++) {
-				if (UnsolvedSudoku[row][col] == 0) { emptyFieldCount++; }
-			}
-		}
-		if (emptyFieldCount <= SudokuSize - SudokuSquareSize) { return 0; }
-		removeCount = 0;
-		for (int row = rowStart; row < rowEnd; row++) {
-			for (int col = colStart; col < colEnd; col++) {
-				removableIndex = (row * SudokuSize) + col;
-				if (!availableButtonIndexes.Contains(removableIndex)) { continue; }
-				availableButtonIndexes.Remove(removableIndex);
-				removeCount++;
-			}
-		}
-		return removeCount;
-	}
+	//private int RemoveUnnecessaryFields(ref List<int> availableButtonIndexes, int currentButtonIndex) {
+	//	int rowStart, rowCurrent, rowEnd, colStart, colCurrent, colEnd, emptyFieldCount, removableIndex, removeCount;
+	//	rowCurrent = currentButtonIndex / SudokuSize;
+	//	colCurrent = currentButtonIndex % SudokuSize;
+	//	rowStart = GetStartIndex(rowCurrent);
+	//	rowEnd = rowStart + SudokuSquareSize;
+	//	colStart = GetStartIndex(colCurrent);
+	//	colEnd = colStart + SudokuSquareSize;
+	//	emptyFieldCount = 0;
+	//	for (int row = rowStart; row < rowEnd; row++) {
+	//		for (int col = colStart; col < colEnd; col++) {
+	//			if (UnsolvedSudoku[row][col] == 0) { emptyFieldCount++; }
+	//		}
+	//	}
+	//	if (emptyFieldCount <= SudokuSize - SudokuSquareSize) { return 0; }
+	//	removeCount = 0;
+	//	for (int row = rowStart; row < rowEnd; row++) {
+	//		for (int col = colStart; col < colEnd; col++) {
+	//			removableIndex = (row * SudokuSize) + col;
+	//			if (!availableButtonIndexes.Contains(removableIndex)) { continue; }
+	//			availableButtonIndexes.Remove(removableIndex);
+	//			removeCount++;
+	//		}
+	//	}
+	//	return removeCount;
+	//}
 	#endregion
 
 	#region PlaceFunctions

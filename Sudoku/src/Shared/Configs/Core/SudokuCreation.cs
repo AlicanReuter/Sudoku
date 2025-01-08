@@ -30,6 +30,7 @@ public static class SudokuCreation {
 	public static Difficult Difficulty { get; set; }
 	public static Transformation CurrentTransformation { get; set; }
 	public static List<Dictionary<string, object>> GuessHistory { get; set; }
+	public static List<int> PlaceHistory { get; set; }
 	#endregion
 
 	#region SudokuHelperFunctions

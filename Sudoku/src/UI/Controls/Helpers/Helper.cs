@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Linq;
 using System.Windows.Forms;
+using UI.Controls.Buttons;
 using UI.Controls.Panels;
 using static Shared.Configs.Core.SudokuCreation;
 using static Shared.Configs.UI.Controls;
@@ -51,11 +53,22 @@ internal static class Helper {
 	internal static void PlaceNumberInControl(string number) {
 		if (ControlsSelected.Count <= 0) { return; }
 		if (ControlsSelected[0].Text == number) { ControlsSelected[0].Text = string.Empty; }
-		else { ControlsSelected[0].Text = number; }
+		else {
+			ControlsSelected[0].Text = number;
+			PlaceHistory.Add((ControlsSelected[0] as GameButtonField).buttonIndex);
+		}
 	}
 	internal static void PlaceVariantInControl(string number) {
 		if (ControlsSelected.Count <= 0) { return; }
 		ControlsSelected[0].Text = number;
+	}
+	internal static void UndoLastPlacedNumber(Control cntrl) {
+		int lastButtonIndex = PlaceHistory.Last();
+		foreach (Control child in cntrl.Controls) {
+			if ((child as GameButtonField).buttonIndex != lastButtonIndex) { continue; }
+			child.Text = string.Empty;
+			break;
+		}
 	}
 	#endregion
 

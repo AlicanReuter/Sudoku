@@ -48,12 +48,12 @@ internal class GameButtonField : Button {
 	private string GetText() {
 		int row = buttonIndex / SudokuSize;
 		int column = buttonIndex % SudokuSize;
-		if (SolvedSudoku[row][column].ToString() == "0") {
+		if (UnsolvedSudoku[row][column].ToString() == "0") {
 			return string.Empty;
 		}
 		else {
-			Console.Write(SolvedSudoku[row][column]);
-			return SolvedSudoku[row][column].ToString();
+			Console.Write(UnsolvedSudoku[row][column]);
+			return UnsolvedSudoku[row][column].ToString();
 		}
 	}
 	private void ButtonClick(object sender, MouseEventArgs mouseEventArgs) {
