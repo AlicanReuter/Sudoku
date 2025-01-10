@@ -15,6 +15,7 @@ internal class Sudoku {
 	private void InitializeSudoku() {
 		CreateEmptySudoku();
 		this.SolveSudoku();
+		CreateUnsolvedSudoku();
 		SetDifficulty();
 	}
 	#region DifficultFunctions
@@ -39,71 +40,31 @@ internal class Sudoku {
 	}
 
 	private void RemoveNumbers(int removableNumberCount) {
+		Random rng = new();
 		for (int squareIndex = 0; squareIndex < SudokuSize; squareIndex++) {
-			DeleteRandomNumber(GetFieldIndizesInSquare(squareIndex), removableNumberCount);
+			DeleteRandomNumber(rng, GetFieldIndizesInSquare(squareIndex), removableNumberCount);
 		}
-		//Random rng = new();
-		//List<int> availableButtonIndexes = [];
-		//int lastIndex = SudokuSize * SudokuSize;
-		//int currentButtonIndex, nextRNG, row, col;
-		//for (int i = 0; i < lastIndex; i++) { availableButtonIndexes.Add(i); }
-		//availableButtonIndexes = [.. availableButtonIndexes.OrderBy(x => rng.Next())];
-		//for (int i = 0; i < count; i++) {
-		//	nextRNG = rng.Next(0, availableButtonIndexes.Count);
-		//	currentButtonIndex = availableButtonIndexes[nextRNG];
-		//	availableButtonIndexes.RemoveAt(nextRNG);
-		//	row = currentButtonIndex / SudokuSize;
-		//	col = currentButtonIndex % SudokuSize;
-		//	UnsolvedSudoku[row][col] = 0;
-		//	i += RemoveUnnecessaryFields(ref availableButtonIndexes, currentButtonIndex);
-		//}
 	}
 
 	private List<(int, int)> GetFieldIndizesInSquare(int squareIndex) {
 		List<(int, int)> fields = [];
-		for (int row = squareIndex % SudokuSquareSize; row < SudokuSquareSize; row++) {
-			for (int column = squareIndex / SudokuSquareSize; column < SudokuSquareSize; column++) {
+		var startIndex = GetStartIndizes(squareIndex);
+		for (int row = startIndex.Item1; row < startIndex.Item1 + SudokuSquareSize; row++) {
+			for (int column = startIndex.Item2; column < startIndex.Item2 + SudokuSquareSize; column++) {
 				fields.Add((row, column));
 			}
 		}
 		return fields;
 	}
 
-	private void DeleteRandomNumber(List<(int, int)> fieldIndizes, int removableNumberCount) {
-		Random rng = new();
+	private void DeleteRandomNumber(Random rng, List<(int, int)> fieldIndizes, int removableNumberCount) {
 		fieldIndizes = [.. fieldIndizes.OrderBy(x => rng.Next())];
 		for (int i = 0; i < removableNumberCount; i++) {
 			var rndFieldIndex = fieldIndizes[rng.Next(0, fieldIndizes.Count)];
 			UnsolvedSudoku[rndFieldIndex.Item1][rndFieldIndex.Item2] = 0;
+			fieldIndizes.Remove(rndFieldIndex);
 		}
 	}
-
-	//private int RemoveUnnecessaryFields(ref List<int> availableButtonIndexes, int currentButtonIndex) {
-	//	int rowStart, rowCurrent, rowEnd, colStart, colCurrent, colEnd, emptyFieldCount, removableIndex, removeCount;
-	//	rowCurrent = currentButtonIndex / SudokuSize;
-	//	colCurrent = currentButtonIndex % SudokuSize;
-	//	rowStart = GetStartIndex(rowCurrent);
-	//	rowEnd = rowStart + SudokuSquareSize;
-	//	colStart = GetStartIndex(colCurrent);
-	//	colEnd = colStart + SudokuSquareSize;
-	//	emptyFieldCount = 0;
-	//	for (int row = rowStart; row < rowEnd; row++) {
-	//		for (int col = colStart; col < colEnd; col++) {
-	//			if (UnsolvedSudoku[row][col] == 0) { emptyFieldCount++; }
-	//		}
-	//	}
-	//	if (emptyFieldCount <= SudokuSize - SudokuSquareSize) { return 0; }
-	//	removeCount = 0;
-	//	for (int row = rowStart; row < rowEnd; row++) {
-	//		for (int col = colStart; col < colEnd; col++) {
-	//			removableIndex = (row * SudokuSize) + col;
-	//			if (!availableButtonIndexes.Contains(removableIndex)) { continue; }
-	//			availableButtonIndexes.Remove(removableIndex);
-	//			removeCount++;
-	//		}
-	//	}
-	//	return removeCount;
-	//}
 	#endregion
 
 	#region PlaceFunctions
@@ -160,6 +121,12 @@ internal class Sudoku {
 	//	Wenn der Startindex des feldes (x, y) = (8, 5) berechnet werden soll, muss für 8 bzw 5 die Funktion aufgerufen werden.
 	//	Somit erhält man für 8 den Index 6 und für 5 den Index 3
 	private int GetStartIndex(int index) { return SudokuSquareSize * (index / SudokuSquareSize); }
+	private (int, int) GetStartIndizes(int squareIndex) {
+		(int row, int column) startIndex;
+		startIndex.row = (squareIndex * SudokuSquareSize) % SudokuSize;
+		startIndex.column = (squareIndex / SudokuSquareSize) * SudokuSquareSize;
+		return startIndex;
+	}
 	#endregion
 
 	#region DebugFunctions

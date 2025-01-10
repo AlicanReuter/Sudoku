@@ -3,13 +3,12 @@ using System.Drawing;
 using System.Windows.Forms;
 using UI.Controls.Buttons;
 using static Shared.Configs.UI.Controls;
-using static UI.Controls.Helpers.NavigationControler;
 #endregion
 namespace UI.Controls.Panels;
 internal class TaskPanel : Panel {
 	internal PanelType panelType;
 	private bool isDraging;
-	private Point mousePos;
+	private Point start = new(0, 0);
 	internal TaskPanel(PanelType type) {
 		this.panelType = type;
 		InitializeControl();
@@ -19,22 +18,27 @@ internal class TaskPanel : Panel {
 		this.BackColor = Color.Transparent;
 		this.Size = new Size(TaskPanelWidth, TaskPanelHeight);
 		this.Location = new Point(0, 0);
+		this.MouseDown += new MouseEventHandler(OnMouseDown);
+		this.MouseUp += new MouseEventHandler(OnMouseUp);
+		this.MouseMove += new MouseEventHandler(OnMouseMove);
 		AddChilds();
-		mousePos = new Point(0, 0);
 	}
 	private void AddChilds() {
 		this.Controls.Add(new TaskButton(ButtonType.TaskBarClose, 1));
 		this.Controls.Add(new TaskButton(ButtonType.TaskBarMaximize, 2));
 		this.Controls.Add(new TaskButton(ButtonType.TaskBarMinimize, 3));
 	}
-	private void ControlMouseDown(object sender, MouseEventArgs e) {
+	private void OnMouseDown(object sender, MouseEventArgs e) {
 		isDraging = true;
-		mousePos.X = e.X;
-		mousePos.Y = e.Y;
+		start = e.Location;
 	}
-	private void ControlMouseUp(object sender, MouseEventArgs e) { isDraging = false; }
-	private void ControlMouseMove(object sender, MouseEventArgs e) {
+	private void OnMouseUp(object sender, MouseEventArgs e) {
+		isDraging = false;
+		start = new(0, 0);
+	}
+	private void OnMouseMove(object sender, MouseEventArgs e) {
 		if (!isDraging) { return; }
-		RootCntrl.Location.X += e.X - mousePos.X;
+		this.Parent.Left += e.X - start.X;
+		this.Parent.Top += e.Y - start.Y;
 	}
 }
