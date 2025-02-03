@@ -1,7 +1,10 @@
 ﻿#region Imports
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using UI.Controls.Buttons;
@@ -52,15 +55,80 @@ internal static class Helper {
 	}
 	internal static void PlaceNumberInControl(string number) {
 		if (ControlsSelected.Count <= 0) { return; }
-		if (ControlsSelected[0].Text == number) { ControlsSelected[0].Text = string.Empty; }
+		GameButtonField field = (ControlsSelected[0] as GameButtonField);
+		if (field.isLocked) { return; }
+		int buttonIndex = field.buttonIndex;
+		int row = buttonIndex / SudokuSize;
+		int col = buttonIndex % SudokuSize;
+		RemoveError();
+		if (ControlsSelected[0].Text == number) {
+			ControlsSelected[0].Text = string.Empty;
+			UnsolvedSudoku[row][col] = 0;
+			field.isSolved = false;
+		}
 		else {
+			if (int.TryParse(number, out int result)) {
+				if (!IsValid(buttonIndex, result)) { return; }
+			}
+			else { return; }
 			ControlsSelected[0].Text = number;
-			PlaceHistory.Add((ControlsSelected[0] as GameButtonField).buttonIndex);
+			ControlsSelected[0].ForeColor = Color.Blue;
+			ControlsSelected[0].Font = FontPlacedNumber;
+			UnsolvedSudoku[row][col] = int.Parse(number);
+			field.isSolved = true;
+			PlaceHistory.Add(field.buttonIndex);
 		}
 	}
 	internal static void PlaceVariantInControl(string number) {
 		if (ControlsSelected.Count <= 0) { return; }
-		ControlsSelected[0].Text = number;
+		GameButtonField field = (ControlsSelected[0] as GameButtonField);
+		if (field.isLocked) { return; }
+		if (field.isSolved) { return; }
+		if (ControlsSelected[0].Text.Contains(number)) { ControlsSelected[0].Text = ControlsSelected[0].Text.Replace(number, ""); }
+		else { ControlsSelected[0].Text += number; }
+		char[] variants = ControlsSelected[0].Text.ToCharArray();
+		Array.Sort(variants);
+		ControlsSelected[0].Text = new string(variants);
+		ControlsSelected[0].ForeColor = Color.Gray;
+		ControlsSelected[0].Font = FontVariantNumber;
+		PlaceHistory.Add(field.buttonIndex);
+	}
+	private static void RemoveError() {
+		GamePanelSudoku pnl = RootCntrl.Controls[2].Controls[4].Controls[0] as GamePanelSudoku;
+		for (int i = 0; i < SudokuSize * SudokuSize; i++) {
+			pnl.SetErrorAt(i, false);
+		}
+	}
+	private static bool IsValid(int buttonIndex, int number) {
+		int row = buttonIndex / SudokuSize;
+		int col = buttonIndex % SudokuSize;
+		GamePanelSudoku pnl = RootCntrl.Controls[2].Controls[4].Controls[0] as GamePanelSudoku;
+		//Row
+		for (int i = 0; i < SudokuSize; i++) {
+			if (UnsolvedSudoku[row][i] == number) {
+				pnl.SetErrorAt(row * SudokuSize + i, true);
+				return false;
+			}
+		}
+		//Column
+		for (int i = 0; i < SudokuSize; i++) {
+			if (UnsolvedSudoku[i][col] == number) {
+				pnl.SetErrorAt(i * SudokuSize + col, true);
+				return false;
+			}
+		}
+		//Square
+		int x = SudokuSquareSize * (row / SudokuSquareSize);
+		int y = SudokuSquareSize * (col / SudokuSquareSize);
+		for (int i = 0; i < SudokuSquareSize; i++) {
+			for (int j = 0; j < SudokuSquareSize; j++) {
+				if (UnsolvedSudoku[x + i][y + j] == number) {
+					pnl.SetErrorAt((x + i) * SudokuSize + (y + j), true);
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 	internal static void UndoLastPlacedNumber(Control cntrl) {
 		int lastButtonIndex = PlaceHistory.Last();
@@ -73,13 +141,107 @@ internal static class Helper {
 	#endregion
 
 	#region ControlGamePanel
-	internal static void CreateSudoku(Difficult difficulty) { Core.Program.Main(["3", difficulty.ToString()]); }
-	internal static void LoadSudoku() {
-		//TODO: Load saved Sudoku Function
-		Core.Program.Main(["3", Difficult.Expert.ToString()]);
+	internal static void CreateSudoku(Difficult difficulty, string sudokuJSON = default) {
+		if (sudokuJSON == default) { Core.Program.Main(["init", "3", difficulty.ToString()]); }
+		else {
+			Core.Program.Main(["load", sudokuJSON]);
+		}
 	}
+	[STAThread]
+	internal static string LoadSudoku() {
+		OpenFileDialog openFileDialog = new() {
+			Title = "Load Game",
+			Filter = "JSON-Dateien (*.json)|*.json|Alle Dateien (*.*)|*.*",
+			InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+		};
+		if (openFileDialog.ShowDialog() != DialogResult.OK) { return string.Empty; }
+		else {
+			string filePath = openFileDialog.FileName;
+			string fileContent = File.ReadAllText(filePath);
+			return fileContent;
+		}
+	}
+	internal static void SaveSudoku() {
+		if (UnsolvedSudoku == default) { return; }
+		Dictionary<string, object> dicJson = new() {
+			{ "square_size", SudokuSquareSize},
+			{ "difficult", Difficulty.ToString()},
+			{ "original", OriginalSudoku},
+			{ "unsolved", UnsolvedSudoku},
+			{ "solved", SolvedSudoku},
+			{ "variants", SaveVariants()}
+		};
+		string json = JsonConvert.SerializeObject(dicJson);
+		SaveFileDialog saveFileDialog = new SaveFileDialog {
+			Title = "Save Game",
+			Filter = "JSON-Dateien (*.json)|*.json|Alle Dateien (*.*)|*.*",
+			DefaultExt = "json"
+		};
+
+		if (saveFileDialog.ShowDialog() == DialogResult.OK) {
+			string filePath = saveFileDialog.FileName;
+			File.WriteAllText(filePath, json);
+		}
+		else {
+			Console.WriteLine("Speichern abgebrochen.");
+		}
+	}
+	private static List<List<List<int>>> SaveVariants() {
+		List<List<List<int>>> variants = [];
+		Control cntrl = RootCntrl.Controls[2].Controls[4].Controls[0];
+		int row = 0;
+		int col = 0;
+		List<List<int>> rowVariant = [];
+		foreach (Control child in cntrl.Controls) {
+			List<int> variant = [];
+			if (col >= SudokuSize) {
+				col = 0;
+				row++;
+				variants.Add(rowVariant);
+				rowVariant = [];
+			}
+			if (child.Text.Length == 0) {
+				rowVariant.Add(variant);
+				col++;
+				continue;
+			}
+			foreach (char c in child.Text.ToCharArray()) {
+				if (!int.TryParse(c.ToString(), out int intVar)) { continue; }
+				variant.Add(intVar);
+			}
+			rowVariant.Add(variant);
+			col++;
+		}
+		variants.Add(rowVariant);
+		return variants;
+	}
+	internal static string ConvertList(List<int> list) {
+		string result = string.Empty;
+		foreach (int elem in list) {
+			result += elem.ToString();
+		}
+		return result;
+	}
+	internal static List<string> GetGameButtonFieldContent() {
+		Control cntrl = RootCntrl.Controls[2].Controls[4].Controls[0];
+		List<string> buttonContent = new();
+		foreach (Control child in cntrl.Controls) {
+			buttonContent.Add(child.Text);
+		}
+		return buttonContent;
+	}
+
 	internal static void CreateGamePanel() {
 		Control child = new GamePanel(PanelType.Game);
+		child.Tag = 10;
+		List<Control> remove = [];
+		foreach (Control cntrl in RootCntrl.Controls[2].Controls) {
+			if (cntrl.Tag == null) { continue; }
+			if (cntrl.Tag.Equals(10)) { remove.Add(cntrl); }
+		}
+		foreach (Control cntrl in remove) {
+			RootCntrl.Controls[2].Controls.Remove(cntrl);
+		}
 		RootCntrl.Controls[2].Controls.Add(child);
 	}
 	internal static void SetLocation(Control cntrl) {

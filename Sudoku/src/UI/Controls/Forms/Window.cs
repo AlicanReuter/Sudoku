@@ -1,4 +1,5 @@
 ﻿#region Imports
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using UI.Controls.Panels;
@@ -13,6 +14,7 @@ internal class Window : Form {
 		this.formType = type;
 		InitializeControl();
 	}
+	[STAThread]
 	private void InitializeControl() {
 		this.Size = new(MainFormWidth, MainFormHeight);
 		this.FormBorderStyle = FormBorderStyle.None;
@@ -22,6 +24,7 @@ internal class Window : Form {
 		AddChilds();
 		RootCntrl = this;
 	}
+	[STAThread]
 	private void AddChilds() {
 		this.Controls.Add(new TaskPanel(PanelType.TaskBar));
 		this.Controls.Add(new TaskMenuPanel(PanelType.TaskMenuBar));

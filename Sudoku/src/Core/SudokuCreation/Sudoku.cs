@@ -1,4 +1,5 @@
 ﻿#region Imports
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,17 +7,37 @@ using static Shared.Configs.Core.SudokuCreation;
 #endregion
 namespace Core.SudokuCreation;
 internal class Sudoku {
-	internal Sudoku(int size, string difficulty) {
+	internal Sudoku(int size, string difficulty, Dictionary<string, object> loadedSudoku = default) {
 		SudokuSize = size * size;
 		SudokuSquareSize = size;
 		Difficulty = (Difficult) Enum.Parse(typeof(Difficult), difficulty);
-		InitializeSudoku();
+		InitializeSudoku(loadedSudoku, true);
 	}
-	private void InitializeSudoku() {
-		CreateEmptySudoku();
-		this.SolveSudoku();
-		CreateUnsolvedSudoku();
-		SetDifficulty();
+	internal Sudoku(string jsonString) {
+		Dictionary<string, object> json = JsonConvert.DeserializeObject<Dictionary<string, object>>(jsonString);
+		int size = Int32.Parse(json["square_size"].ToString());
+		SudokuSize = size * size;
+		SudokuSquareSize = size;
+		string diff = json["difficult"].ToString();
+		Enum.TryParse(diff, out Difficult difficulty);
+		Difficulty = difficulty;
+		InitializeSudoku(json, false);
+	}
+	private void InitializeSudoku(Dictionary<string, object> loadedSudoku, bool isNew) {
+		if (isNew) {
+			CreateEmptySudoku();
+			this.SolveSudoku();
+			CreateUnsolvedSudoku();
+			SetDifficulty();
+			OriginalSudoku = SudokuSolver.CopySudoku(UnsolvedSudoku);
+			VariantSudoku = default;
+		}
+		else {
+			LoadOriginalSudoku(loadedSudoku["original"]);
+			LoadUnsolvedSudoku(loadedSudoku["unsolved"]);
+			LoadSolvedSudoku(loadedSudoku["solved"]);
+			LoadVariantSudoku(loadedSudoku["variants"]);
+		}
 	}
 	#region DifficultFunctions
 	private void SetDifficulty() {

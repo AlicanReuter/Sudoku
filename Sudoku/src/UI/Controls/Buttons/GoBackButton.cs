@@ -2,6 +2,7 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using static Shared.Configs.Core.SudokuCreation;
 using static Shared.Configs.UI.Controls;
 using static UI.Controls.Helpers.Helper;
 using static UI.Controls.Helpers.NavigationControler;
@@ -33,6 +34,7 @@ internal class GoBackButton : Button {
 	}
 	internal void ClickControl(object sender, MouseEventArgs e) {
 		VisitPreviousScreen();
+		Unload();
 	}
 	private void EnterControl(object sender, EventArgs e) {
 		this.BackColor = Color.White;

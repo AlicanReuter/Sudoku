@@ -363,6 +363,17 @@ internal static class SudokuSolver {
 		}
 		return copy;
 	}
+	public static List<List<int>> CopySudoku(List<List<int>> sudoku) {
+		List<List<int>> copy = [];
+		for (int row = 0; row < sudoku.Count; row++) {
+			List<int> copyRow = [];
+			for (int column = 0; column < sudoku.Count; column++) {
+				copyRow.Add(sudoku[row][column]);
+			}
+			copy.Add(copyRow);
+		}
+		return copy;
+	}
 	#endregion
 
 	#region DebuggFunctions

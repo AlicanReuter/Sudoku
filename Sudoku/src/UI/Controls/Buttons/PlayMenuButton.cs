@@ -16,6 +16,7 @@ internal class PlayMenuButton : Button {
 		this.buttonIndex = index;
 		InitializeControl();
 	}
+	[STAThread]
 	private void InitializeControl() {
 		this.Visible = true;
 		this.BackColor = Color.Transparent;
@@ -45,10 +46,13 @@ internal class PlayMenuButton : Button {
 			_ => ""
 		};
 	}
+	[STAThread]
 	private void ClickControl(object sender, MouseEventArgs e) {
+		string loadedSudoku = default;
 		switch (buttonType) {
 			case ButtonType.PlayMenuContinue:
-				LoadSudoku();
+				loadedSudoku = LoadSudoku();
+				CreateSudoku(Difficult.None, loadedSudoku);
 				break;
 			case ButtonType.PlayMenuEasy:
 				CreateSudoku(Difficult.Easy);
@@ -63,6 +67,7 @@ internal class PlayMenuButton : Button {
 				CreateSudoku(Difficult.Expert);
 				break;
 		}
+		if (buttonType == ButtonType.PlayMenuContinue && loadedSudoku == default) { return; }
 		CreateGamePanel();
 		VisitNextScreen(this);
 	}

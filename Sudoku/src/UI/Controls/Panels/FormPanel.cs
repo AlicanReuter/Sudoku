@@ -1,4 +1,5 @@
 ﻿#region Imports
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 using static Shared.Configs.UI.Controls;
@@ -13,6 +14,7 @@ internal class FormPanel : Panel {
 		InitializeControl();
 		VisitFirstScreen(this);
 	}
+	[STAThread]
 	private void InitializeControl() {
 		this.Visible = true;
 		this.BackColor = Color.Transparent;
@@ -21,6 +23,7 @@ internal class FormPanel : Panel {
 		this.Location = new Point(0, TaskPanelHeight + TaskPanelHeight);
 		AddChilds();
 	}
+	[STAThread]
 	private void AddChilds() {
 		MainMenuPanel mainMenu = new(PanelType.MainMenu);
 		PlayMenuPanel playMenu = new(PanelType.PlayMenu);

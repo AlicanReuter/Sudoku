@@ -1,4 +1,5 @@
 ﻿#region Imports
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
@@ -13,6 +14,7 @@ internal class PlayMenuPanel : Panel {
 		this.panelType = type;
 		InitializeControl();
 	}
+	[STAThread]
 	internal void InitializeControl() {
 		this.Visible = false;
 		this.BackColor = Color.Transparent;
@@ -20,6 +22,7 @@ internal class PlayMenuPanel : Panel {
 		this.Size = GetSize();
 		this.Region = GetRegion(this);
 	}
+	[STAThread]
 	private void AddChilds() {
 		List<ButtonType> types = [ButtonType.PlayMenuContinue, ButtonType.PlayMenuEasy, ButtonType.PlayMenuNormal, ButtonType.PlayMenuHard, ButtonType.PlayMenuExpert];
 		foreach (ButtonType type in types) {

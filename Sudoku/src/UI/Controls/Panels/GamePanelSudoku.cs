@@ -35,4 +35,13 @@ internal class GamePanelSudoku : Panel {
 		int yCoordinate = (this.Parent.Height - (this.Parent.Height / 3) - this.Height) / 2;
 		this.Location = new Point(xCoordinate, yCoordinate);
 	}
+	internal void SetErrorAt(int buttonIndex, bool error) {
+		foreach (Control child in this.Controls) {
+			GameButtonField button = child as GameButtonField;
+			if (button.buttonIndex == buttonIndex) {
+				button.ShowError(error);
+				return;
+			}
+		}
+	}
 }

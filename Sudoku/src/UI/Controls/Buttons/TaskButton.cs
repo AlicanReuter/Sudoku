@@ -3,6 +3,7 @@ using System;
 using System.Drawing;
 using System.Windows.Forms;
 using static Shared.Configs.UI.Controls;
+using static UI.Controls.Helpers.Helper;
 #endregion
 namespace UI.Controls.Buttons;
 internal class TaskButton : Button {
@@ -42,6 +43,7 @@ internal class TaskButton : Button {
 	private void ClickControl(object sender, MouseEventArgs e) {
 		switch (buttonType) {
 			case ButtonType.TaskBarClose:
+				SaveSudoku();
 				Application.Exit();
 				break;
 			case ButtonType.TaskBarMaximize:

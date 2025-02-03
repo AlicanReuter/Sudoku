@@ -10,9 +10,13 @@ namespace UI.Controls.Buttons;
 internal class GameButtonField : Button {
 	internal readonly ButtonType buttonType;
 	internal readonly int buttonIndex;
+	internal bool isLocked;
+	internal bool isSolved;
 	internal GameButtonField(ButtonType type, int buttonIndex) {
 		this.buttonType = type;
 		this.buttonIndex = buttonIndex;
+		this.isLocked = false;
+		this.isSolved = false;
 		InitializeButton();
 	}
 	private void InitializeButton() {
@@ -20,10 +24,14 @@ internal class GameButtonField : Button {
 		this.BackColor = Color.White;
 		this.FlatAppearance.BorderSize = 0;
 		this.FlatStyle = FlatStyle.Flat;
+		this.Font = FontKnownNumber;
+		this.ForeColor = Color.Black;
 		this.Size = new(GameButtonSize, GameButtonSize);
 		this.Location = GetLocation();
 		this.MouseClick += new MouseEventHandler(ButtonClick);
-		this.Text = GetText();
+		this.Text = GetOriginal();
+		this.Text = GetUnsolved();
+		this.Text = GetVariants();
 	}
 	private Point GetLocation() {
 		//TODO:
@@ -45,16 +53,50 @@ internal class GameButtonField : Button {
 		}
 		return new Point(xCoordinate, yCoordinate);
 	}
-	private string GetText() {
+	private string GetOriginal() {
+		int row = buttonIndex / SudokuSize;
+		int column = buttonIndex % SudokuSize;
+		if (OriginalSudoku[row][column].ToString() == "0") {
+			return string.Empty;
+		}
+		else {
+			Console.Write(OriginalSudoku[row][column]);
+			this.isLocked = true;
+			return OriginalSudoku[row][column].ToString();
+		}
+	}
+	private string GetUnsolved() {
+		if (this.Text.Length > 0) { return this.Text; }
 		int row = buttonIndex / SudokuSize;
 		int column = buttonIndex % SudokuSize;
 		if (UnsolvedSudoku[row][column].ToString() == "0") {
 			return string.Empty;
 		}
 		else {
-			Console.Write(UnsolvedSudoku[row][column]);
+			this.ForeColor = Color.Blue;
+			this.isSolved = true;
 			return UnsolvedSudoku[row][column].ToString();
 		}
+	}
+	private string GetVariants() {
+		if (this.Text.Length > 0) { return this.Text; }
+		if (VariantSudoku == default) { return this.Text; }
+		int row = buttonIndex / SudokuSize;
+		int column = buttonIndex % SudokuSize;
+		if (VariantSudoku[row][column].Count < 1) {
+			return string.Empty;
+		}
+		else {
+			this.ForeColor = Color.Gray;
+			this.Font = FontVariantNumber;
+			return ConvertList(VariantSudoku[row][column]);
+		}
+	}
+	public void ShowError(bool isError) {
+		if (isError) { this.ForeColor = Color.Red; }
+		else if (this.isLocked) { this.ForeColor = Color.Black; }
+		else if (this.isSolved) { this.ForeColor = Color.Blue; }
+		else { this.ForeColor = Color.Gray; }
 	}
 	private void ButtonClick(object sender, MouseEventArgs mouseEventArgs) {
 		UnselectControls();

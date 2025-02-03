@@ -1,4 +1,5 @@
 ﻿#region Imports
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,7 @@ public static class SudokuCreation {
 	#region SudokuVariables
 	public static int SudokuSize { get; set; }
 	public static int SudokuSquareSize { get; set; }
+	public static List<List<int>> OriginalSudoku { get; set; }
 	public static List<List<int>> UnsolvedSudoku { get; set; }
 	public static List<List<int>> SolvedSudoku { get; set; }
 	public static List<List<List<int>>> VariantSudoku { get; set; }
@@ -34,6 +36,15 @@ public static class SudokuCreation {
 	#endregion
 
 	#region SudokuHelperFunctions
+	public static void Unload() {
+		SudokuSize = SudokuSquareSize = default;
+		OriginalSudoku = UnsolvedSudoku = SolvedSudoku = null;
+		VariantSudoku = null;
+		Difficulty = default;
+		CurrentTransformation = default;
+		GuessHistory = default;
+		PlaceHistory = [];
+	}
 	public static void CreateEmptySudoku() {
 		List<List<int>> sudoku = [];
 		for (int row = 0; row < SudokuSize; row++) {
@@ -84,6 +95,18 @@ public static class SudokuCreation {
 			sudoku.Add(sudokuRow);
 		}
 		UnsolvedSudoku = sudoku;
+	}
+	public static void LoadVariantSudoku(object variantSudoku) {
+		VariantSudoku = ((JArray) variantSudoku).ToObject<List<List<List<int>>>>();
+	}
+	public static void LoadOriginalSudoku(object originalSudoku) {
+		OriginalSudoku = ((JArray) originalSudoku).ToObject<List<List<int>>>();
+	}
+	public static void LoadUnsolvedSudoku(object unsolvedSudoku) {
+		UnsolvedSudoku = ((JArray) unsolvedSudoku).ToObject<List<List<int>>>();
+	}
+	public static void LoadSolvedSudoku(object solvedSudoku) {
+		SolvedSudoku = ((JArray) solvedSudoku).ToObject<List<List<int>>>();
 	}
 	#endregion
 
