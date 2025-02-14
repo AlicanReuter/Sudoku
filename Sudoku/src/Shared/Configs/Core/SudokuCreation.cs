@@ -32,7 +32,7 @@ public static class SudokuCreation {
 	public static Difficult Difficulty { get; set; }
 	public static Transformation CurrentTransformation { get; set; }
 	public static List<Dictionary<string, object>> GuessHistory { get; set; }
-	public static List<int> PlaceHistory { get; set; } = [];
+	public static List<Dictionary<string, object>> PlaceHistory { get; set; } = [];
 	#endregion
 
 	#region SudokuHelperFunctions
@@ -69,6 +69,17 @@ public static class SudokuCreation {
 			List<List<int>> nextRow = [];
 			for (int column = 0; column < SudokuSize; column++) {
 				nextRow.Add(GetSudokuNumbers());
+			}
+			variantSudoku.Add(nextRow);
+		}
+		VariantSudoku = variantSudoku;
+	}
+	public static void CreateEmptyVariantSudoku() {
+		List<List<List<int>>> variantSudoku = [];
+		for (int row = 0; row < SudokuSize; row++) {
+			List<List<int>> nextRow = [];
+			for (int column = 0; column < SudokuSize; column++) {
+				nextRow.Add(new List<int>());
 			}
 			variantSudoku.Add(nextRow);
 		}

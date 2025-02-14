@@ -20,5 +20,6 @@ internal class TaskMenuPanel : Panel {
 	}
 	private void AddChilds() {
 		this.Controls.Add(new GoBackButton(ButtonType.GoBack, 1));
+		this.Controls.Add(new UndoButton(ButtonType.Undo));
 	}
 }

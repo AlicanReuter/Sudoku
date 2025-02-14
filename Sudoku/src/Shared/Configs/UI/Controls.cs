@@ -38,7 +38,8 @@ public static class Controls {
 		SudokuField,
 		SudokuNumbers,
 		SudokuVariants,
-		GoBack
+		GoBack,
+		Undo
 	}
 	#endregion
 

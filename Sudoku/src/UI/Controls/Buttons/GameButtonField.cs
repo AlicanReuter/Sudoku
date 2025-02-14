@@ -29,9 +29,7 @@ internal class GameButtonField : Button {
 		this.Size = new(GameButtonSize, GameButtonSize);
 		this.Location = GetLocation();
 		this.MouseClick += new MouseEventHandler(ButtonClick);
-		this.Text = GetOriginal();
-		this.Text = GetUnsolved();
-		this.Text = GetVariants();
+		LoadText();
 	}
 	private Point GetLocation() {
 		//TODO:
@@ -53,6 +51,11 @@ internal class GameButtonField : Button {
 		}
 		return new Point(xCoordinate, yCoordinate);
 	}
+	public void LoadText() {
+		this.Text = GetOriginal();
+		this.Text = GetUnsolved();
+		this.Text = GetVariants();
+	}
 	private string GetOriginal() {
 		int row = buttonIndex / SudokuSize;
 		int column = buttonIndex % SudokuSize;
@@ -70,6 +73,7 @@ internal class GameButtonField : Button {
 		int row = buttonIndex / SudokuSize;
 		int column = buttonIndex % SudokuSize;
 		if (UnsolvedSudoku[row][column].ToString() == "0") {
+			this.isSolved = false;
 			return string.Empty;
 		}
 		else {
@@ -81,6 +85,7 @@ internal class GameButtonField : Button {
 	private string GetVariants() {
 		if (this.Text.Length > 0) { return this.Text; }
 		if (VariantSudoku == default) { return this.Text; }
+		if (VariantSudoku.Count == 0) { return this.Text; }
 		int row = buttonIndex / SudokuSize;
 		int column = buttonIndex % SudokuSize;
 		if (VariantSudoku[row][column].Count < 1) {

@@ -72,6 +72,9 @@
     <Compile Include="Controls\Buttons\TaskButton.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Controls\Buttons\UndoButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Forms\Window.cs">
       <SubType>Form</SubType>
     </Compile>

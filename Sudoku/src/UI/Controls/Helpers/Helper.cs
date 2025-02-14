@@ -62,6 +62,7 @@ internal static class Helper {
 		int col = buttonIndex % SudokuSize;
 		RemoveError();
 		if (ControlsSelected[0].Text == number) {
+			AddHistory();
 			ControlsSelected[0].Text = string.Empty;
 			UnsolvedSudoku[row][col] = 0;
 			field.isSolved = false;
@@ -71,27 +72,79 @@ internal static class Helper {
 				if (!IsValid(buttonIndex, result)) { return; }
 			}
 			else { return; }
+			AddHistory();
 			ControlsSelected[0].Text = number;
 			ControlsSelected[0].ForeColor = Color.Blue;
 			ControlsSelected[0].Font = FontPlacedNumber;
 			UnsolvedSudoku[row][col] = int.Parse(number);
 			field.isSolved = true;
-			PlaceHistory.Add(field.buttonIndex);
 		}
+	}
+	private static List<List<int>> CopySudoku(List<List<int>> sudoku) {
+		List<List<int>> copy = [];
+		for (int row = 0; row < sudoku.Count; row++) {
+			List<int> copyRow = [];
+			for (int column = 0; column < sudoku.Count; column++) {
+				copyRow.Add(sudoku[row][column]);
+			}
+			copy.Add(copyRow);
+		}
+		return copy;
+	}
+	private static List<List<List<int>>> CopyVariant(List<List<List<int>>> variant) {
+		List<List<List<int>>> copy = [];
+		for (int row = 0; row < variant.Count; row++) {
+			List<List<int>> copyRow = [];
+			for (int column = 0; column < variant.Count; column++) {
+				copyRow.Add(new List<int>(variant[row][column]));
+			}
+			copy.Add(copyRow);
+		}
+		return copy;
+	}
+	private static void AddHistory() {
+		Dictionary<string, object> history = [];
+		history.Add("sudokuHistory", CopySudoku(UnsolvedSudoku));
+		if (VariantSudoku == default || VariantSudoku.Count == 0) { CreateEmptyVariantSudoku(); }
+		history.Add("variantHistory", CopyVariant(VariantSudoku));
+		PlaceHistory.Add(history);
+	}
+	public static void LoadHistory() {
+		if (PlaceHistory == null) { return; }
+		if (PlaceHistory == default) { return; }
+		if (PlaceHistory.Count == 0) { return; }
+		Dictionary<string, object> state = PlaceHistory.ElementAt(PlaceHistory.Count() - 1);
+		state.TryGetValue("sudokuHistory", out object sudoku);
+		state.TryGetValue("variantHistory", out object variants);
+		UnsolvedSudoku = (List<List<int>>) sudoku;
+		VariantSudoku = (List<List<List<int>>>) variants;
+		PlaceHistory.RemoveAt(PlaceHistory.Count() - 1);
 	}
 	internal static void PlaceVariantInControl(string number) {
 		if (ControlsSelected.Count <= 0) { return; }
 		GameButtonField field = (ControlsSelected[0] as GameButtonField);
 		if (field.isLocked) { return; }
 		if (field.isSolved) { return; }
-		if (ControlsSelected[0].Text.Contains(number)) { ControlsSelected[0].Text = ControlsSelected[0].Text.Replace(number, ""); }
-		else { ControlsSelected[0].Text += number; }
+		int buttonIndex = field.buttonIndex;
+		int row = buttonIndex / SudokuSize;
+		int col = buttonIndex % SudokuSize;
+		if (VariantSudoku == default || VariantSudoku.Count == 0) { CreateEmptyVariantSudoku(); }
+		AddHistory();
+		int num;
+		int.TryParse(number, out num);
+		if (ControlsSelected[0].Text.Contains(number)) {
+			ControlsSelected[0].Text = ControlsSelected[0].Text.Replace(number, "");
+			VariantSudoku[row][col].Remove(num);
+		}
+		else {
+			ControlsSelected[0].Text += number;
+			VariantSudoku[row][col].Add(num);
+		}
 		char[] variants = ControlsSelected[0].Text.ToCharArray();
 		Array.Sort(variants);
 		ControlsSelected[0].Text = new string(variants);
 		ControlsSelected[0].ForeColor = Color.Gray;
 		ControlsSelected[0].Font = FontVariantNumber;
-		PlaceHistory.Add(field.buttonIndex);
 	}
 	private static void RemoveError() {
 		GamePanelSudoku pnl = RootCntrl.Controls[2].Controls[4].Controls[0] as GamePanelSudoku;
@@ -131,7 +184,7 @@ internal static class Helper {
 		return true;
 	}
 	internal static void UndoLastPlacedNumber(Control cntrl) {
-		int lastButtonIndex = PlaceHistory.Last();
+		int lastButtonIndex = 0;
 		foreach (Control child in cntrl.Controls) {
 			if ((child as GameButtonField).buttonIndex != lastButtonIndex) { continue; }
 			child.Text = string.Empty;
