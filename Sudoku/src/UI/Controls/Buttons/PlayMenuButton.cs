@@ -23,6 +23,7 @@ internal class PlayMenuButton : Button {
 		this.ForeColor = Color.White;
 		this.FlatAppearance.BorderSize = 0;
 		this.FlatStyle = FlatStyle.Flat;
+		this.Font = FontUIButtons;
 		this.Size = new(MainMenuButtonWidth, MainMenuButtonHeight);
 		this.Location = GetLocation();
 		this.Text = GetText();

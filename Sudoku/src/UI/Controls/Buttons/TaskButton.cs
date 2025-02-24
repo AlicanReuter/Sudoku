@@ -20,6 +20,7 @@ internal class TaskButton : Button {
 		this.ForeColor = Color.White;
 		this.FlatAppearance.BorderSize = 0;
 		this.FlatStyle = FlatStyle.Flat;
+		this.Font = FontUIButtons;
 		this.Size = new(TaskButtonSize, TaskButtonSize);
 		this.Location = GetLocation();
 		this.Text = GetText();

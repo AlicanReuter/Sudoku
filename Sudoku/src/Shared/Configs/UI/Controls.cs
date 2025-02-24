@@ -69,5 +69,6 @@ public static class Controls {
 	public static readonly Font FontKnownNumber = new("Arial", 20, FontStyle.Bold);
 	public static readonly Font FontPlacedNumber = new("Arial", 20, FontStyle.Bold);
 	public static readonly Font FontVariantNumber = new("Arial", 8, FontStyle.Bold);
+	public static readonly Font FontUIButtons = new("Arial", 16, FontStyle.Bold);
 	#endregion
 }
